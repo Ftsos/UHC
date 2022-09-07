@@ -1,0 +1,5 @@
+name: UHC
+version: '${project.version}'
+main: me.ftsos.UHC
+authors: [ ftsos ]
+description: A UHC core Plugin

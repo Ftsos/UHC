@@ -1,0 +1,16 @@
+gamestates:
+  waiting:
+    displayName: "&eWaiting"
+  starting:
+    displayName: "&6Starting"
+  playing:
+    displayName: "&aPlaying"
+  deathmatch:
+      displayName: "&4Deathmatch"
+  finishing:
+    displayName: "&cFinishing"
+  restarting:
+    displayName: "&9Restarting"
+gameplay:
+  naturalPlayerDeath: "&c%player%&6 has dead because of %death_cause%"
+  playerKill: "&c%killer% &6killed &c%victim%"
