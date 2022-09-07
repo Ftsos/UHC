@@ -1,6 +1,7 @@
 package me.ftsos.game.handlers;
 
-import me.ftsos.events.UhcGameDeathEvent;
+import me.ftsos.events.game.GameStateUpdateEvent;
+import me.ftsos.game.GameState;
 import me.ftsos.game.UhcGame;
 import me.ftsos.game.players.GamePlayer;
 import me.ftsos.game.players.GameTeam;
@@ -87,7 +88,6 @@ public class GameTeamHandler implements GameHandler {
         this.gameTeams.add(team);
     }
 
-    @Override
     public void onWaiting() {
         //Teleport all players to spawn
         for(GamePlayer gPlayer : getPlayers()) {
@@ -95,12 +95,10 @@ public class GameTeamHandler implements GameHandler {
         }
     }
 
-    @Override
     public void onStarting() {
 
     }
 
-    @Override
     public void onPlaying() {
         for(GameTeam team : this.gameTeams) {
             Location teamSpawnLocation = randomSpawnLocation();
@@ -109,19 +107,51 @@ public class GameTeamHandler implements GameHandler {
 
     }
 
-    @Override
     public void onDeathmatch() {
 
     }
 
-    @Override
     public void onFinishing() {
 
     }
 
-    @Override
     public void onRestarting() {
 
+    }
+
+    @Override
+    public void onGameStateUpdate(GameStateUpdateEvent event) {
+        if(event.isCancelled()) return;
+
+        // Called on Waiting State Firing
+        if(event.getNewGameState() == GameState.WAITING) {
+            onWaiting();
+        }
+
+        // Called on Starting State Firing
+        if(event.getNewGameState() == GameState.STARTING) {
+            onStarting();
+        }
+
+        // Called on Playing State Firing
+        if(event.getNewGameState() == GameState.PLAYING) {
+            onPlaying();
+        }
+
+        // Called on Deathmatch State Firing
+        if(event.getNewGameState() == GameState.DEATHMATCH) {
+            onDeathmatch();
+        }
+
+        // Called on Finishing State Firing
+        if(event.getNewGameState() == GameState.FINISHING) {
+            onFinishing();
+        }
+
+        // Called on Restarting State Firing
+        if(event.getNewGameState() == GameState.RESTARTING) {
+            onRestarting();
+        }
     }
 
     public Location randomSpawnLocation() {

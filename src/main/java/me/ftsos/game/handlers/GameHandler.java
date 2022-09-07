@@ -1,10 +1,7 @@
 package me.ftsos.game.handlers;
 
+import me.ftsos.events.game.GameStateUpdateEvent;
+
 public interface GameHandler {
-    void onWaiting();
-    void onStarting();
-    void onPlaying();
-    void onDeathmatch();
-    void onFinishing();
-    void onRestarting();
+    void onGameStateUpdate(GameStateUpdateEvent event);
 }

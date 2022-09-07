@@ -1,49 +1,54 @@
 package me.ftsos.game;
 
-import me.ftsos.events.UhcGameDeathEvent;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+import me.ftsos.events.game.GameStateUpdateEvent;
+import me.ftsos.events.player.PlayerDeathEvent;
+import me.ftsos.events.game.UhcGamePlayerDeathEvent;
+import me.ftsos.utils.config.Messages;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 
 public class GameListener implements Listener {
-    @EventHandler
-    public void onDeath(EntityDamageEvent event) {
-        if(event.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) return;
-        if(!(event.getEntity() instanceof Player)) return;
-        Player player = (Player) event.getEntity();
+    private UhcGamesManager uhcGamesManager;
 
-        if(!(player.getHealth() - event.getFinalDamage() <= 0)) return;
-        event.setCancelled(true);
-        //Always set the player to max health
-        player.setHealth(player.getMaxHealth());
-
-        UhcGameDeathEvent uhcGameDeathEvent = new UhcGameDeathEvent(player, event.getCause());
-        Bukkit.getPluginManager().callEvent(uhcGameDeathEvent);
+    public GameListener(UhcGamesManager uhcGamesManager) {
+        this.uhcGamesManager = uhcGamesManager;
     }
 
 
+
+    /*
+    * Game Listeners
+    * */
+
     @EventHandler
-    public void onKill(EntityDamageByEntityEvent event) {
-        if(!(event.getEntity() instanceof Player)) return;
-        Player player = (Player) event.getEntity();
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
 
-        if(!(player.getHealth() - event.getFinalDamage() <= 0)) return;
-        event.setCancelled(true);
-        //Always set the player to max health
-        player.setHealth(player.getMaxHealth());
+    /*
+    * Players Game Listeners
+    * */
 
-        UhcGameDeathEvent uhcGameDeathEvent;
-
-        if(event.getDamager() instanceof Player) {
-            Player killer = (Player) event.getDamager();
-            uhcGameDeathEvent = new UhcGameDeathEvent(player, killer, event.getCause());
+    @EventHandler
+    public void onGamePlayerDeath(UhcGamePlayerDeathEvent event) {
+        String deathMessage = "";
+        if(event.getKiller() == null) {
+            deathMessage = Messages.NATURAL_PLAYER_DEATH_MESSAGE.replace("%player%", event.getVictim().getPlayer().getDisplayName()).replace("%death_cause%", event.getCause().name());
         } else {
-             uhcGameDeathEvent = new UhcGameDeathEvent(player, event.getCause());
+            deathMessage = Messages.PLAYER_KILL_MESSAGE.replace("%killer%", event.getKiller().getPlayer().getDisplayName()).replace("%victim%", event.getVictim().getPlayer().getDisplayName());
         }
+        event.getGame().broadcastMessage(deathMessage);
+    }
 
-        Bukkit.getPluginManager().callEvent(uhcGameDeathEvent);
+    /*
+    * GameStates Updates Listener
+    * */
+    @EventHandler
+    public void onGameStateUpdate(GameStateUpdateEvent event) {
+        if(event.isCancelled()) return;
+
+        UhcGame game = event.getGame();
+
+        game.getMapHandler().onGameStateUpdate(event);
     }
 }

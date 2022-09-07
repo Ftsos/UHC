@@ -1,5 +1,6 @@
 package me.ftsos.game.handlers;
 
+import me.ftsos.events.game.GameStateUpdateEvent;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -7,7 +8,7 @@ import org.bukkit.WorldType;
 
 import java.util.UUID;
 
-public class MapHandler {
+public class MapHandler implements GameHandler {
     private World world;
     private Location spawnLocation;
 
@@ -31,4 +32,7 @@ public class MapHandler {
         return spawnLocation;
     }
 
+    public void onGameStateUpdate(GameStateUpdateEvent event) {
+
+    }
 }

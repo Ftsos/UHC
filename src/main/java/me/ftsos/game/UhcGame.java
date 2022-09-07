@@ -1,10 +1,11 @@
 package me.ftsos.game;
 
-import me.ftsos.events.UhcGameDeathEvent;
+import me.ftsos.events.game.GameStateUpdateEvent;
+import me.ftsos.game.handlers.GameListenerHandler;
 import me.ftsos.game.handlers.GameTeamHandler;
 import me.ftsos.game.handlers.MapHandler;
 import me.ftsos.utils.Colorizer;
-import me.ftsos.utils.config.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 
 public class UhcGame {
@@ -12,9 +13,11 @@ public class UhcGame {
     private GameTeamHandler gameTeamHandler;
     private GameOptions gameOptions;
     private MapHandler mapHandler;
+    private GameListenerHandler gameListenerHandler;
 
     public UhcGame(GameOptions options) {
         this.gameOptions = options;
+        this.gameListenerHandler = new GameListenerHandler(this);
         this.mapHandler = new MapHandler();
         this.gameState = GameState.WAITING;
         this.gameTeamHandler = new GameTeamHandler(this);
@@ -22,6 +25,18 @@ public class UhcGame {
 
     public GameState getGameState() {
         return gameState;
+    }
+
+    public void updateGameState(GameState gameState) {
+        GameStateUpdateEvent gameStateUpdateEvent = new GameStateUpdateEvent(this.gameState, gameState, this);
+        Bukkit.getPluginManager().callEvent(gameStateUpdateEvent);
+
+        if(gameStateUpdateEvent.isCancelled()) {
+            return;
+        }
+
+        this.gameState = gameState;
+
     }
 
     public void broadcastMessage(String message) {
@@ -41,17 +56,11 @@ public class UhcGame {
     }
 
     public void onEvent(Event event) {
-        if(event instanceof UhcGameDeathEvent) {
-            UhcGameDeathEvent uhcGameDeathEvent = (UhcGameDeathEvent) event;
-            if(!this.getGameTeamHandler().lobbyContainsBukkitPlayer(uhcGameDeathEvent.getVictim())) return;
-            String deathMessage = "";
-            if(uhcGameDeathEvent.getKiller() == null) {
-                deathMessage = Messages.NATURAL_PLAYER_DEATH_MESSAGE.replace("%player%", uhcGameDeathEvent.getVictim().getDisplayName()).replace("%death_cause%", uhcGameDeathEvent.getCause().name());
-            } else {
-                deathMessage = Messages.PLAYER_KILL_MESSAGE.replace("%killer%", uhcGameDeathEvent.getKiller().getDisplayName()).replace("%victim%", uhcGameDeathEvent.getVictim().getDisplayName());
-            }
-            broadcastMessage(deathMessage);
-        }
+        this.getGameListenerHandler().onEvent(event);
+    }
+
+    public GameListenerHandler getGameListenerHandler() {
+        return gameListenerHandler;
     }
 }
 
