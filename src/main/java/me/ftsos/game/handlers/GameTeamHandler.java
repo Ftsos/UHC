@@ -5,10 +5,15 @@ import me.ftsos.game.GameState;
 import me.ftsos.game.UhcGame;
 import me.ftsos.game.players.GamePlayer;
 import me.ftsos.game.players.GameTeam;
+import me.ftsos.game.utils.GameTask;
+import me.ftsos.utils.Callback;
 import me.ftsos.utils.Colorizer;
 import me.ftsos.utils.config.Config;
+import me.ftsos.utils.config.Messages;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +52,9 @@ public class GameTeamHandler implements GameHandler {
     public List<Player> getBukkitPlayers() {
         List<Player> players = new ArrayList<>();
         for(GamePlayer gPlayer : getPlayers()) {
-            players.add(gPlayer.getPlayer());
+            gPlayer.getPlayer().ifPresent(player -> {
+                players.add(player);
+            });
         }
         return players;
     }
@@ -83,23 +90,52 @@ public class GameTeamHandler implements GameHandler {
         return gameTeam.getGamePlayer(player);
     }
 
-    public void addTeam(GameTeam team) {
+    public void teamJoin(GameTeam team) {
+        //Team bigger than max size of the allowed for the game check
         if(team.getSize() > uhcGame.getGameOptions().getMaxTeamSize()) return;
+        //Game is already full
+        if((getGameTeams().size() + 1) > uhcGame.getGameOptions().getMaxTeams()) return;
+        //TODO: Add to Spectator if game is full (Code should be managed with the @SpectatorHandler class)
+        //Game has already started
+        if(uhcGame.getGameState() != GameState.WAITING) return;
+
+        //Adding the team
         this.gameTeams.add(team);
+
+        for(GamePlayer gPlayer : team.getPlayers()) {
+            gPlayer.getPlayer().ifPresent(player -> {
+                playerJoinToGameInWaitingState(player);
+            });
+        }
     }
 
     public void onWaiting() {
         //Teleport all players to spawn
+        //Will be called at the very start of the game, no one should be there but just in case
         for(GamePlayer gPlayer : getPlayers()) {
-            gPlayer.getPlayer().teleport(uhcGame.getMapHandler().getSpawnLocation());
+            gPlayer.getPlayer().ifPresent(player -> {
+                playerJoinToGameInWaitingState(player);
+            });
         }
     }
 
-    public void onStarting() {
 
+    public void onStarting() {
+        //Call the countdown
+        startStartingCountdown(() -> {
+            //Called when the countdown has ended
+            for(Player player : getBukkitPlayers()) {
+                //Clean up the player title and subtitle
+                player.sendTitle("", "");
+            }
+
+            //Move to the next game state
+            uhcGame.updateGameState(GameState.PLAYING);
+        });
     }
 
     public void onPlaying() {
+        //TODO: Send Messages & Titles for playing state
         for(GameTeam team : this.gameTeams) {
             Location teamSpawnLocation = randomSpawnLocation();
             team.teleport(teamSpawnLocation);
@@ -154,6 +190,14 @@ public class GameTeamHandler implements GameHandler {
         }
     }
 
+    /*
+    * Utils for State Updates Functions
+    * */
+
+    /*
+    * Will return a random location between the spawn radius
+    * Used for getting all the teams spawns
+    * */
     public Location randomSpawnLocation() {
         int minX = -Config.SPAWN_RADIUS;
         int minZ = -Config.SPAWN_RADIUS;
@@ -167,4 +211,53 @@ public class GameTeamHandler implements GameHandler {
 
         return teamSpawnLocation;
     }
+
+    public void playerJoinToGameInWaitingState(Player player) {
+        //Clearing players inventories, clearing players titles, setting gamemodes, removing hunger, velocities and fire;
+        //TODO: Make blocks not breakable on GameState being waiting, Player not Damaging, and not having hunger
+        player.setGameMode(GameMode.SURVIVAL);
+        player.sendTitle("", "");
+        player.setHealth(player.getMaxHealth());
+        player.getInventory().clear();
+        player.getInventory().setArmorContents(null);
+        player.setVelocity(new Vector(0, 0, 0));
+        player.setFireTicks(0);
+        player.setFoodLevel(20);
+
+        //Teleporting players to Spawn
+        player.teleport(uhcGame.getMapHandler().getSpawnLocation());
+    }
+
+
+    /*
+    * Will start starting countdown for all players
+    * */
+    public void startStartingCountdown(Callback onCountdownEnds) {
+        /*
+        * Java will apparently not let me use a simple variable here because "Variable is accessed within inner class. Needs to be declared final"
+        * So found this lil bit hacky solution, but hey man, if it works it works
+        * https://stackoverflow.com/questions/14425826/variable-is-accessed-within-inner-class-needs-to-be-declared-final#answer-49738591
+        * */
+        final int[] seconds = {Config.STARTING_COUNTDOWN_TIMER};
+
+        GameTask countdownRunnable = new GameTask(this.uhcGame) {
+            @Override
+            public void runCustomTask() {
+                if((seconds[0] - 1) < 0) this.cancel(onCountdownEnds);
+                for(Player player : getBukkitPlayers()) {
+                    /*
+                     * TODO: Feature Request: Add a subtitle related to every numbers
+                     * */
+                    player.sendTitle(Colorizer.colorize(Messages.STARTING_COUNTDOWN_NUMBER_TITLE.replace("%timer%", seconds + "")), "");
+                    player.sendMessage(Colorizer.colorize(Messages.STARTING_COUNTDOWN_NUMBER_MESSAGE.replace("%timer%", seconds + "")));
+                }
+                seconds[0] = seconds[0] - 1;
+            }
+        };
+
+        //Run the starting countdown every second until stops
+        countdownRunnable.runTaskTimer(0L, 20L);
+
+    }
 }
+

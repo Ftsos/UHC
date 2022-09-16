@@ -18,7 +18,13 @@ public class Messages {
     /*
     * In Game Chats
     * */
-    public static String NATURAL_PLAYER_DEATH_MESSAGE = messages.getString("gameplay.naturalPlayerDeath").orElse("&c%player%&6 has dead because of %death_cause%");
-    public static String PLAYER_KILL_MESSAGE = messages.getString("gameplay.playerKill").orElse("&c%killer% &6killed &c%victim%");
+    public static String NATURAL_PLAYER_DEATH_MESSAGE = messages.getString("gameplay.messages.naturalPlayerDeath").orElse("&c%player%&6 has dead because of %death_cause%");
+    public static String PLAYER_KILL_MESSAGE = messages.getString("gameplay.messages.playerKill").orElse("&c%killer% &6killed &c%victim%");
+    public static String STARTING_COUNTDOWN_NUMBER_MESSAGE = messages.getString("gameplay.messages.startingCountdownNumber").orElse("&eStarting on &c%timer%");
+
+    /*
+    * Player Title
+    * */
+    public static String STARTING_COUNTDOWN_NUMBER_TITLE = messages.getString("gameplay.titles.startingCountdownNumber").orElse("&e%timer%");
 
 }

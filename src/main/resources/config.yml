@@ -2,3 +2,4 @@ minPlayers: 5
 maxPlayers: 100
 spawnRadius: 500
 mapRadius: 1000
+startingCountdownTimer: 10

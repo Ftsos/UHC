@@ -23,11 +23,14 @@ public class GameTeam {
 
     public void teleport(Location location) {
         for(GamePlayer gPlayer : this.players) {
-            gPlayer.getPlayer().teleport(location);
+            gPlayer.getPlayer().ifPresent(player -> {
+                player.teleport(location);
+            });
         }
     }
 
     public void onPlayerKilled(GamePlayer gamePlayer) {
+        //TODO: Add checks to see if the team has lost, should be done with cooperation of @GameTeamHandler
         this.players.remove(gamePlayer);
     }
 
@@ -41,23 +44,30 @@ public class GameTeam {
         return true;
     }
 
-    public boolean containsGamePlayer(GamePlayer player) {
+    public boolean containsGamePlayer(GamePlayer gamePlayer) {
         for(GamePlayer gPlayer : this.players) {
-            if(player.getPlayer().getUniqueId() == gPlayer.getPlayer().getUniqueId()) return true;
+                if(gamePlayer.getPlayerUUID() == gPlayer.getPlayerUUID()) return true;
         }
         return false;
     }
 
     public GamePlayer getGamePlayer(Player player) {
         for(GamePlayer gPlayer : this.players) {
-            if(player.getUniqueId() == gPlayer.getPlayer().getUniqueId()) return gPlayer;
+                if(player.getUniqueId() == gPlayer.getPlayerUUID()) return gPlayer;
+        }
+        return null;
+    }
+
+    public GamePlayer getGamePlayer(GamePlayer player) {
+        for(GamePlayer gPlayer : this.players) {
+            if(player.getPlayerUUID() == gPlayer.getPlayerUUID()) return gPlayer;
         }
         return null;
     }
 
     public GamePlayer getGamePlayer(UUID player) {
         for(GamePlayer gPlayer : this.players) {
-            if(player == gPlayer.getPlayer().getUniqueId()) return gPlayer;
+            if(player == gPlayer.getPlayerUUID()) return gPlayer;
         }
         return null;
     }

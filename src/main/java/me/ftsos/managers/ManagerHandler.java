@@ -3,6 +3,7 @@ package me.ftsos.managers;
 import me.ftsos.UHC;
 import me.ftsos.game.UhcGamesManager;
 import me.ftsos.listeners.ListenerManager;
+import me.ftsos.utils.tasks.TaskManager;
 import me.ftsos.utils.config.ConfigManager;
 
 import java.util.HashMap;
@@ -59,6 +60,7 @@ public class ManagerHandler {
         register(new ConfigManager(plugin));
         register(new UhcGamesManager(plugin));
         register(new ListenerManager(plugin));
+        register(new TaskManager(plugin));
     }
 
     public void unregisterManagers() {

@@ -13,14 +13,14 @@ public class MapHandler implements GameHandler {
     private Location spawnLocation;
 
     public MapHandler() {
-        WorldCreator wc = new WorldCreator(UUID.randomUUID() + "");
+        WorldCreator wc = new WorldCreator("GAME+" + UUID.randomUUID());
 
         wc.environment(World.Environment.NORMAL);
         wc.type(WorldType.NORMAL);
 
         this.world = wc.createWorld();
-
         this.spawnLocation = new Location(this.world, 0, 0 ,0);
+        this.world.setSpawnLocation(0, 0, 0);
 
     }
 

@@ -4,6 +4,7 @@ import me.ftsos.events.game.GameStateUpdateEvent;
 import me.ftsos.events.player.PlayerDeathEvent;
 import me.ftsos.events.game.UhcGamePlayerDeathEvent;
 import me.ftsos.utils.config.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
@@ -33,11 +34,14 @@ public class GameListener implements Listener {
     public void onGamePlayerDeath(UhcGamePlayerDeathEvent event) {
         String deathMessage = "";
         if(event.getKiller() == null) {
-            deathMessage = Messages.NATURAL_PLAYER_DEATH_MESSAGE.replace("%player%", event.getVictim().getPlayer().getDisplayName()).replace("%death_cause%", event.getCause().name());
+            deathMessage = Messages.NATURAL_PLAYER_DEATH_MESSAGE.replace("%player%", Bukkit.getOfflinePlayer(event.getVictim().getPlayerUUID()).getName()).replace("%death_cause%", event.getCause().name());
         } else {
-            deathMessage = Messages.PLAYER_KILL_MESSAGE.replace("%killer%", event.getKiller().getPlayer().getDisplayName()).replace("%victim%", event.getVictim().getPlayer().getDisplayName());
+            deathMessage = Messages.PLAYER_KILL_MESSAGE.replace("%killer%", Bukkit.getOfflinePlayer(event.getKiller().getPlayerUUID()).getName()).replace("%victim%", Bukkit.getOfflinePlayer(event.getVictim().getPlayerUUID()).getName());
         }
         event.getGame().broadcastMessage(deathMessage);
+
+        //TODO: Change to teleport to lobby manager
+
     }
 
     /*

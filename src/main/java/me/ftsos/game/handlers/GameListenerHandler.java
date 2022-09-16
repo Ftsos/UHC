@@ -36,7 +36,7 @@ public class GameListenerHandler implements GameHandler {
             Player bukkitKiller = playerDeathEvent.getKiller();
             EntityDamageEvent.DamageCause damageCause = playerDeathEvent.getCause();
 
-            GamePlayer victim = this.game.getGameTeamHandler().getGamePlayer(playerDeathEvent.getVictim());
+            GamePlayer victim = this.game.getGameTeamHandler().getGamePlayer(bukkitVictim);
             GamePlayer killer = bukkitKiller != null ? this.game.getGameTeamHandler().getGamePlayer(bukkitKiller) : null;
             GameTeam gameTeam = this.game.getGameTeamHandler().getTeam(victim);
 

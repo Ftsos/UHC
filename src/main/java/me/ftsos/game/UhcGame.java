@@ -1,9 +1,11 @@
 package me.ftsos.game;
 
+import me.ftsos.UHC;
 import me.ftsos.events.game.GameStateUpdateEvent;
 import me.ftsos.game.handlers.GameListenerHandler;
 import me.ftsos.game.handlers.GameTeamHandler;
 import me.ftsos.game.handlers.MapHandler;
+import me.ftsos.game.handlers.TaskHandler;
 import me.ftsos.utils.Colorizer;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
@@ -14,13 +16,18 @@ public class UhcGame {
     private GameOptions gameOptions;
     private MapHandler mapHandler;
     private GameListenerHandler gameListenerHandler;
+    private TaskHandler taskHandler;
+    private UHC plugin;
 
-    public UhcGame(GameOptions options) {
+    public UhcGame(GameOptions options, UHC plugin) {
+        this.plugin = plugin;
         this.gameOptions = options;
+        this.taskHandler = new TaskHandler(plugin, this);
         this.gameListenerHandler = new GameListenerHandler(this);
         this.mapHandler = new MapHandler();
         this.gameState = GameState.WAITING;
         this.gameTeamHandler = new GameTeamHandler(this);
+        this.updateGameState(GameState.WAITING);
     }
 
     public GameState getGameState() {
@@ -61,6 +68,10 @@ public class UhcGame {
 
     public GameListenerHandler getGameListenerHandler() {
         return gameListenerHandler;
+    }
+
+    public TaskHandler getTaskHandler() {
+        return taskHandler;
     }
 }
 

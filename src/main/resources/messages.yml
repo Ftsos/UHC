@@ -12,5 +12,10 @@ gamestates:
   restarting:
     displayName: "&9Restarting"
 gameplay:
-  naturalPlayerDeath: "&c%player%&6 has dead because of %death_cause%"
-  playerKill: "&c%killer% &6killed &c%victim%"
+  messages:
+    naturalPlayerDeath: "&c%player%&6 has dead because of %death_cause%"
+    playerKill: "&c%killer% &6killed &c%victim%"
+    startingCountdownNumber: "&eStarting on &c%timer%"
+
+  titles:
+    startingCountdownNumber: "&e%timer%"
