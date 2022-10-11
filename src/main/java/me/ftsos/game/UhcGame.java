@@ -2,11 +2,10 @@ package me.ftsos.game;
 
 import me.ftsos.UHC;
 import me.ftsos.events.game.GameStateUpdateEvent;
-import me.ftsos.game.handlers.GameListenerHandler;
-import me.ftsos.game.handlers.GameTeamHandler;
-import me.ftsos.game.handlers.MapHandler;
-import me.ftsos.game.handlers.TaskHandler;
-import me.ftsos.utils.Colorizer;
+import me.ftsos.game.handlers.*;
+import me.ftsos.lobby.Lobby;
+import me.ftsos.lobby.LobbyManager;
+import me.ftsos.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Event;
 
@@ -17,6 +16,9 @@ public class UhcGame {
     private MapHandler mapHandler;
     private GameListenerHandler gameListenerHandler;
     private TaskHandler taskHandler;
+    private SpectatorHandler spectatorHandler;
+    private TimeHandler timeHandler;
+    private GamePlayerWrapperHandler gamePlayerWrapperHandler;
     private UHC plugin;
 
     public UhcGame(GameOptions options, UHC plugin) {
@@ -27,6 +29,9 @@ public class UhcGame {
         this.mapHandler = new MapHandler();
         this.gameState = GameState.WAITING;
         this.gameTeamHandler = new GameTeamHandler(this);
+        this.spectatorHandler = new SpectatorHandler(this);
+        this.timeHandler = new TimeHandler(this);
+        this.gamePlayerWrapperHandler = new GamePlayerWrapperHandler(this);
         this.updateGameState(GameState.WAITING);
     }
 
@@ -47,7 +52,7 @@ public class UhcGame {
     }
 
     public void broadcastMessage(String message) {
-        this.gameTeamHandler.broadcastMessage(Colorizer.colorize(message));
+        this.gameTeamHandler.broadcastMessage(CC.colorize(message));
     }
 
     public GameTeamHandler getGameTeamHandler() {
@@ -62,6 +67,10 @@ public class UhcGame {
         return mapHandler;
     }
 
+    public SpectatorHandler getSpectatorHandler() {
+        return spectatorHandler;
+    }
+
     public void onEvent(Event event) {
         this.getGameListenerHandler().onEvent(event);
     }
@@ -72,6 +81,18 @@ public class UhcGame {
 
     public TaskHandler getTaskHandler() {
         return taskHandler;
+    }
+
+    public Lobby getLobby() {
+        return this.plugin.getManagerHandler().find(LobbyManager.class).getLobby();
+    }
+
+    public TimeHandler getTimeHandler() {
+        return timeHandler;
+    }
+
+    public GamePlayerWrapperHandler getGamePlayerWrapperHandler() {
+        return gamePlayerWrapperHandler;
     }
 }
 

@@ -11,8 +11,12 @@ import java.util.UUID;
 public class MapHandler implements GameHandler {
     private World world;
     private Location spawnLocation;
-
+    /**
+    * @MapHandler
+    * This Class is the one that creates and manages the maps (borders in a future, and 0 0) and all that stuff
+    * */
     public MapHandler() {
+        //TODO: Make a thread for it
         WorldCreator wc = new WorldCreator("GAME+" + UUID.randomUUID());
 
         wc.environment(World.Environment.NORMAL);
@@ -20,7 +24,7 @@ public class MapHandler implements GameHandler {
 
         this.world = wc.createWorld();
         this.spawnLocation = new Location(this.world, 0, 0 ,0);
-        this.world.setSpawnLocation(0, 0, 0);
+        this.world.setSpawnLocation(spawnLocation.getBlockX(), spawnLocation.getBlockY(), spawnLocation.getBlockZ());
 
     }
 

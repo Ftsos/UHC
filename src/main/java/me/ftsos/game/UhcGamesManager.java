@@ -10,10 +10,13 @@ import java.util.List;
 public class UhcGamesManager extends Manager {
     private UHC plugin;
     private List<UhcGame> games;
+    private UhcGamesManagerWrapper uhcGamesManagerWrapper;
+    //TODO: add support for removing from games list when game has started restarting
     public UhcGamesManager(UHC plugin) {
         super(plugin);
         this.plugin = plugin;
         this.games = new ArrayList<>();
+        this.uhcGamesManagerWrapper = new UhcGamesManagerWrapper(this.plugin, this);
     }
 
     @Override
@@ -32,5 +35,18 @@ public class UhcGamesManager extends Manager {
         }
     }
 
+    /**
+    * This method should only be used on @UhcGamesManagerWrapper
+    * */
+    public void addUhcGame(UhcGame uhcGame) {
+        this.games.add(uhcGame);
+    }
 
+    public List<UhcGame> getGames() {
+        return games;
+    }
+
+    public UhcGamesManagerWrapper getUhcGamesManagerWrapper() {
+        return uhcGamesManagerWrapper;
+    }
 }

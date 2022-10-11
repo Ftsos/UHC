@@ -1,0 +1,24 @@
+spectator:
+  leaveItem:
+    material: BED
+    slot: 25
+    name: '&c&lLeave'
+    lore:
+      - '&8Click for leaving to lobby.'
+  teleportItem:
+    material: COMPASS
+    slot: 22
+    name: '&a&lTeleport'
+    lore:
+      - '&8Click to open the teleport menu.'
+  playAgainItem:
+    material: BEACON
+    slot: 19
+    name: '&b&lPlay again'
+    lore:
+      - '&8Click to send you into a new match.'
+lobby:
+  openGamesItem:
+    material: COMPASS
+    slot: 0
+    name: '&aGames'

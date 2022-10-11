@@ -10,19 +10,24 @@ public class ConfigManager extends Manager {
 
     private final IYaml config;
     private final IYaml messages;
+    private final IYaml inventories;
+    private final IYaml permissions;
 
     public ConfigManager(UHC plugin) {
         super(plugin);
         this.plugin = plugin;
         config = new YamlOf(plugin, "config.yml");
         messages = new YamlOf(plugin, "messages.yml");
+        inventories = new YamlOf(plugin, "inventories.yml");
+        permissions = new YamlOf(plugin, "permissions.yml");
     }
 
     @Override
     public void enable() {
         config.create();
         messages.create();
-
+        inventories.create();
+        permissions.create();
     }
 
     @Override
@@ -36,5 +41,13 @@ public class ConfigManager extends Manager {
 
     public IYaml getMessages() {
         return messages;
+    }
+
+    public IYaml getInventories() {
+        return inventories;
+    }
+
+    public IYaml getPermissions() {
+        return permissions;
     }
 }

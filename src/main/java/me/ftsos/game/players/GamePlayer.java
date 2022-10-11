@@ -1,6 +1,6 @@
 package me.ftsos.game.players;
 
-import me.ftsos.utils.Colorizer;
+import me.ftsos.utils.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -21,11 +21,15 @@ public class GamePlayer {
 
     public void sendMessage(String message) {
         getPlayer().ifPresent(player ->  {
-            player.sendMessage(Colorizer.colorize(message));
+            player.sendMessage(CC.colorize(message));
         });
     }
 
     public UUID getPlayerUUID() {
         return playerUUID;
+    }
+
+    public void onPlayerKilled() {
+        this.playerUUID = null;
     }
 }

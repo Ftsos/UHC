@@ -30,8 +30,9 @@ public class GameTeam {
     }
 
     public void onPlayerKilled(GamePlayer gamePlayer) {
-        //TODO: Add checks to see if the team has lost, should be done with cooperation of @GameTeamHandler
+        //TODO: Finish the checks to see if the team has lost, should be done with cooperation of @GameTeamHandler
         this.players.remove(gamePlayer);
+        gamePlayer.onPlayerKilled();
     }
 
     public boolean containsPlayer(Player player) {
@@ -71,4 +72,6 @@ public class GameTeam {
         }
         return null;
     }
+
+
 }

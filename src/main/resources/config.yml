@@ -3,3 +3,12 @@ maxPlayers: 100
 spawnRadius: 500
 mapRadius: 1000
 startingCountdownTimer: 10
+lobby:
+  lobbyWorldName: "lobby"
+  spawn:
+    x: 0
+    y: 0
+    z: 0
+    yaw: 0
+    pitch: 0
+  buildingOrBreakingOnLobbyPermission: "uhc.buildingOrBreakingOnLobby"

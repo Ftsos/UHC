@@ -9,7 +9,7 @@ public abstract class GameTask extends Task {
 
     /**
     *
-    * Abstract Class Handler of @Task
+    * Abstract Class Handler of @Task but for @UhcGame and @GameTaskHandler
     *
     * */
     public GameTask(UhcGame game, Callback onRegisterCallback) {

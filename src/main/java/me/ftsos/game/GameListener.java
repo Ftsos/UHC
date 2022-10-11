@@ -1,12 +1,19 @@
 package me.ftsos.game;
 
 import me.ftsos.events.game.GameStateUpdateEvent;
-import me.ftsos.events.player.PlayerDeathEvent;
+import me.ftsos.events.player.*;
 import me.ftsos.events.game.UhcGamePlayerDeathEvent;
+import me.ftsos.game.players.GameSpectator;
 import me.ftsos.utils.config.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class GameListener implements Listener {
     private UhcGamesManager uhcGamesManager;
@@ -15,14 +22,62 @@ public class GameListener implements Listener {
         this.uhcGamesManager = uhcGamesManager;
     }
 
-
-
     /*
     * Game Listeners
     * */
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onPlayerInteract(PlayerInteractEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onPlayerHitEntityEvent(PlayerGetsHitByEntityEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onPlayerHitPlayerEvent(PlayerHitPlayerEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onPlayerTakeDamage(PlayerTakeDamageEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onFoodLevelChange(FoodLevelChangeEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onPlayerMove(PlayerMoveEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onPlayerFallIntoVoid(PlayerFallIntoVoidEvent event) {
+        uhcGamesManager.onEvent(event);
+    }
+
+    @EventHandler
+    public void onPlayerDisconnect(PlayerQuitEvent event) {
         uhcGamesManager.onEvent(event);
     }
 
@@ -40,8 +95,9 @@ public class GameListener implements Listener {
         }
         event.getGame().broadcastMessage(deathMessage);
 
-        //TODO: Change to teleport to lobby manager
-
+        event.getVictim().getPlayer().ifPresent(player -> {
+            event.getGame().getGameTeamHandler().onPlayerGetKilled(event.getTeam(), event.getVictim());
+        });
     }
 
     /*

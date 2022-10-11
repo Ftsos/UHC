@@ -1,6 +1,6 @@
 package me.ftsos.game;
 
-import me.ftsos.utils.Colorizer;
+import me.ftsos.utils.CC;
 import me.ftsos.utils.config.Messages;
 
 public enum GameState {
@@ -13,9 +13,9 @@ public enum GameState {
 
     private String displayName;
     GameState(String displayName) {
-        this.displayName = Colorizer.colorize(displayName);
+        this.displayName = CC.colorize(displayName);
     }
     public String getDisplayName() {
-        return Colorizer.colorize(displayName);
+        return CC.colorize(displayName);
     }
 }

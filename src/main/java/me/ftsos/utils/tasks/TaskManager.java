@@ -50,13 +50,13 @@ public class TaskManager extends Manager {
     public void unregister(Class<? extends Task> runnableClazz, boolean cancel) {
         Task runnable = find(runnableClazz);
         if(runnable == null) return;
-        unregister(runnableClazz, cancel);
+        unregister(runnable, cancel);
     }
 
     public void unregister(Class<? extends Task> runnableClazz, Callback callback) {
         Task runnable = find(runnableClazz);
         if(runnable == null) return;
-        unregister(runnableClazz, callback);
+        unregister(runnable,callback);
     }
 
     public void unregisterTasks() {

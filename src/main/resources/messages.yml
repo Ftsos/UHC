@@ -6,7 +6,7 @@ gamestates:
   playing:
     displayName: "&aPlaying"
   deathmatch:
-      displayName: "&4Deathmatch"
+    displayName: "&4Deathmatch"
   finishing:
     displayName: "&cFinishing"
   restarting:
@@ -16,6 +16,33 @@ gameplay:
     naturalPlayerDeath: "&c%player%&6 has dead because of %death_cause%"
     playerKill: "&c%killer% &6killed &c%victim%"
     startingCountdownNumber: "&eStarting on &c%timer%"
-
+    cantPlaceBlocks: "&cYou can't place blocks here"
+    cantBreakBlocks: "&cYou can't break blocks here"
+    lobbyIsFull: "&cLobby is already full"
+    partyTooBigForLobby: "&cYour party is too big for the lobby, you can't join"
+    gameHasAlreadyStartedJoiningSpectatorMode: "&cGame has already started, you are joining in &6Spectator &8mode"
+    gameHasAlreadyStartedCantJoinSpectatorMode: "&cGame has already started, but as a party you can't spectate"
+    joiningToAGame: "&aJoining you to &6%gameName%"
   titles:
     startingCountdownNumber: "&e%timer%"
+commands:
+  uhc:
+    infoSubCommand:
+      - "&8-----------------------------------------"
+      - "&4&lUHC"
+      - "&7A simple &6UHC &7plugin developed by &9Ftsos"
+      - "&aSubcommands: "
+      - "&bPlayers: "
+      - "&9Info: &7Show this help page. Usage: /uhc info or /uhc help"
+      - "&9Play: &7Joins you to a lobby. Usage: /uhc play"
+      - "&9Join: &7Joins you to a specified lobby. Usage: /uhc join <lobbyName>"
+      - "&cAdmins: "
+      - "&9Start: &7Starts a Match. Usage: /uhc start <minTeams>;<maxTeams>;<maxTeamSize>;<gameName> <announce game starting | true | false>"
+      - "&8-----------------------------------------"
+    startSubCommand:
+      message: "&aStarting new game: &6%gameName%"
+      announceMessage: "&a&lNew Game Starting! &6&l%gameName%"
+    joinSubCommand:
+      gameDoesntExist: "&cThe game \"%gameName%\" doesnt exist"
+utils:
+  noPermission: "&cYou don't have the permission to do that action"

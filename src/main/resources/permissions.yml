@@ -1,0 +1,9 @@
+commands:
+  uhc:
+    basePermission: "uhc.command"
+    subCommands:
+      start: "uhc.command.start"
+      info: "uhc.command.info"
+      join: "uhc.command.join"
+lobby:
+  buildingOrBreakingOnLobbyPermission: "uhc.buildingOrBreakingOnLobby"

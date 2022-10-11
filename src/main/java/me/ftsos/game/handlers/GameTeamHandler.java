@@ -4,10 +4,11 @@ import me.ftsos.events.game.GameStateUpdateEvent;
 import me.ftsos.game.GameState;
 import me.ftsos.game.UhcGame;
 import me.ftsos.game.players.GamePlayer;
+import me.ftsos.game.players.GameSpectator;
 import me.ftsos.game.players.GameTeam;
 import me.ftsos.game.utils.GameTask;
 import me.ftsos.utils.Callback;
-import me.ftsos.utils.Colorizer;
+import me.ftsos.utils.CC;
 import me.ftsos.utils.config.Config;
 import me.ftsos.utils.config.Messages;
 import org.bukkit.GameMode;
@@ -23,6 +24,11 @@ public class GameTeamHandler implements GameHandler {
     private List<GameTeam> gameTeams;
     private UhcGame uhcGame;
 
+    /**
+     * @GameTeamHandler
+     * This class will handle all the stuff related to teams/players internally for external methods is @GamePlayerWrapperHandler
+    * */
+
     public GameTeamHandler(UhcGame uhcGame) {
         this.uhcGame = uhcGame;
         this.gameTeams = new ArrayList<>();
@@ -34,7 +40,7 @@ public class GameTeamHandler implements GameHandler {
 
     public void broadcastMessage(String message) {
         for(GamePlayer gPlayer : getPlayers()) {
-            gPlayer.sendMessage(Colorizer.colorize(message));
+            gPlayer.sendMessage(CC.colorize(message));
         }
     }
 
@@ -95,7 +101,6 @@ public class GameTeamHandler implements GameHandler {
         if(team.getSize() > uhcGame.getGameOptions().getMaxTeamSize()) return;
         //Game is already full
         if((getGameTeams().size() + 1) > uhcGame.getGameOptions().getMaxTeams()) return;
-        //TODO: Add to Spectator if game is full (Code should be managed with the @SpectatorHandler class)
         //Game has already started
         if(uhcGame.getGameState() != GameState.WAITING) return;
 
@@ -107,6 +112,16 @@ public class GameTeamHandler implements GameHandler {
                 playerJoinToGameInWaitingState(player);
             });
         }
+    }
+
+    public void onPlayerGetKilled(GameTeam team, GamePlayer gPlayer) {
+        gPlayer.getPlayer().ifPresent(player -> {
+            this.uhcGame.getSpectatorHandler().addSpectator(new GameSpectator(player));
+        });
+        team.onPlayerKilled(gPlayer);
+        if(!team.getPlayers().isEmpty()) return;
+        this.gameTeams.remove(team);
+
     }
 
     public void onWaiting() {
@@ -214,7 +229,6 @@ public class GameTeamHandler implements GameHandler {
 
     public void playerJoinToGameInWaitingState(Player player) {
         //Clearing players inventories, clearing players titles, setting gamemodes, removing hunger, velocities and fire;
-        //TODO: Make blocks not breakable on GameState being waiting, Player not Damaging, and not having hunger
         player.setGameMode(GameMode.SURVIVAL);
         player.sendTitle("", "");
         player.setHealth(player.getMaxHealth());
@@ -223,6 +237,7 @@ public class GameTeamHandler implements GameHandler {
         player.setVelocity(new Vector(0, 0, 0));
         player.setFireTicks(0);
         player.setFoodLevel(20);
+        player.setFallDistance(0);
 
         //Teleporting players to Spawn
         player.teleport(uhcGame.getMapHandler().getSpawnLocation());
@@ -248,8 +263,8 @@ public class GameTeamHandler implements GameHandler {
                     /*
                      * TODO: Feature Request: Add a subtitle related to every numbers
                      * */
-                    player.sendTitle(Colorizer.colorize(Messages.STARTING_COUNTDOWN_NUMBER_TITLE.replace("%timer%", seconds + "")), "");
-                    player.sendMessage(Colorizer.colorize(Messages.STARTING_COUNTDOWN_NUMBER_MESSAGE.replace("%timer%", seconds + "")));
+                    player.sendTitle(CC.colorize(Messages.STARTING_COUNTDOWN_NUMBER_TITLE.replace("%timer%", seconds + "")), "");
+                    player.sendMessage(CC.colorize(Messages.STARTING_COUNTDOWN_NUMBER_MESSAGE.replace("%timer%", seconds + "")));
                 }
                 seconds[0] = seconds[0] - 1;
             }

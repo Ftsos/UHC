@@ -3,6 +3,8 @@ package me.ftsos.listeners;
 import me.ftsos.UHC;
 import me.ftsos.game.GameListener;
 import me.ftsos.game.UhcGamesManager;
+import me.ftsos.lobby.LobbyListener;
+import me.ftsos.lobby.LobbyManager;
 import me.ftsos.managers.Manager;
 import org.bukkit.plugin.PluginManager;
 
@@ -28,5 +30,6 @@ public class ListenerManager extends Manager {
         PluginManager pm = this.plugin.getServer().getPluginManager();
         pm.registerEvents(new MainListener(), this.plugin);
         pm.registerEvents(new GameListener(this.plugin.getManagerHandler().find(UhcGamesManager.class)), this.plugin);
+        pm.registerEvents(new LobbyListener(this.plugin.getManagerHandler().find(LobbyManager.class)), this.plugin);
     }
 }

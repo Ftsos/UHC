@@ -1,6 +1,6 @@
 package me.ftsos.game.players;
 
-import me.ftsos.utils.Colorizer;
+import me.ftsos.utils.CC;
 import org.bukkit.entity.Player;
 
 public class GameSpectator {
@@ -15,6 +15,10 @@ public class GameSpectator {
     }
 
     public void sendMessage(String message) {
-        getPlayer().sendMessage(Colorizer.colorize(message));
+        getPlayer().sendMessage(CC.colorize(message));
+    }
+
+    public void leaveSpectatorMode() {
+        this.player = null;
     }
 }
