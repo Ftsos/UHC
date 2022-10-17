@@ -3,6 +3,7 @@ package me.ftsos.managers;
 import me.ftsos.UHC;
 import me.ftsos.commands.CommandManager;
 import me.ftsos.game.UhcGamesManager;
+import me.ftsos.gui.GuiManager;
 import me.ftsos.listeners.ListenerManager;
 import me.ftsos.lobby.LobbyManager;
 import me.ftsos.utils.tasks.TaskManager;
@@ -63,6 +64,7 @@ public class ManagerHandler {
         register(new TaskManager(plugin));
         register(new LobbyManager(plugin));
         register(new UhcGamesManager(plugin));
+        register(new GuiManager(plugin));
         register(new ListenerManager(plugin));
         register(new CommandManager(plugin));
     }

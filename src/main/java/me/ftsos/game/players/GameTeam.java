@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class GameTeam {
+    //TODO: Add game team name
+
     private List<GamePlayer> players;
 
     public GameTeam(List<GamePlayer> players) {

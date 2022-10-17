@@ -5,6 +5,7 @@ import me.ftsos.managers.Manager;
 import me.ftsos.utils.Callback;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class TaskManager extends Manager {
@@ -60,8 +61,11 @@ public class TaskManager extends Manager {
     }
 
     public void unregisterTasks() {
-        for(Map.Entry<Class<? extends Task>, Task> entry : this.runnableMap.entrySet()) {
-            unregister(entry.getKey(), true);
+        Iterator<Map.Entry<Class<? extends Task>, Task>> iterator = this.runnableMap.entrySet().iterator();
+        while(iterator.hasNext()){
+            iterator.next().getValue().cancel();
+            //Using this instead of TaskManager#unregister(Class<? extends Task>, boolean) is to avoid ConcurrentModificationException
+            iterator.remove();
         }
     }
 }

@@ -1,6 +1,9 @@
 package me.ftsos.game;
 
 import me.ftsos.UHC;
+import me.ftsos.gui.GuiManager;
+import me.ftsos.gui.impl.GamesGui;
+import org.bukkit.event.Event;
 
 public class UhcGamesManagerWrapper {
     private UhcGamesManager uhcGamesManager;
@@ -19,6 +22,11 @@ public class UhcGamesManagerWrapper {
     public UhcGame createUhcGame(GameOptions gameOptions) {
         UhcGame uhcGame = new UhcGame(gameOptions, this.plugin);
         this.uhcGamesManager.addUhcGame(uhcGame);
+
+        //Registering the game to the GamesGui
+        this.plugin.getManagerHandler().find(GuiManager.class).getGuis().forEach(gui -> {
+            if(gui instanceof GamesGui) ((GamesGui) gui).onNewGameGettingRegistered(uhcGame);
+        });
         return uhcGame;
     }
 
@@ -27,5 +35,18 @@ public class UhcGamesManagerWrapper {
             if(uhcGame.getGameOptions().getGameName().equals(gameName)) return uhcGame;
         }
         return null;
+    }
+
+    public void onEvent(Event event) {
+        for(UhcGame game : this.uhcGamesManager.getGames()) {
+            game.onEvent(event);
+        }
+    }
+
+    public void removeUhcGame(UhcGame game) {
+        this.uhcGamesManager.removeUhcGame(game);
+        this.plugin.getManagerHandler().find(GuiManager.class).getGuis().forEach(gui -> {
+            if(gui instanceof GamesGui) ((GamesGui) gui).onGameBeingRemoved(game);
+        });
     }
 }

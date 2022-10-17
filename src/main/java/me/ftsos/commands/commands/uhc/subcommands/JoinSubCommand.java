@@ -5,6 +5,7 @@ import dev.triumphteam.cmd.core.annotation.SubCommand;
 import me.ftsos.commands.utils.ISubCommand;
 import me.ftsos.game.UhcGame;
 import me.ftsos.game.UhcGamesManagerWrapper;
+import me.ftsos.items.Items;
 import me.ftsos.utils.CC;
 import me.ftsos.utils.config.Messages;
 import org.bukkit.entity.Player;
@@ -19,6 +20,12 @@ public class JoinSubCommand implements ISubCommand {
     @Requirement("hasPermission:joinSubCommand")
     @SubCommand("join")
     public void execute(Player player, String gameName) {
+        //TODO: This is just for testing purposes
+        if(gameName.equals("GET_ME_LOBBY_COMPASS_ITEM")) {
+            player.getInventory().addItem(Items.OPEN_GAMES_ITEM_LOBBY);
+            return;
+        }
+
         UhcGame game = uhcGamesManagerWrapper.getUhcGame(gameName);
         if(game == null) {
             player.sendMessage(CC.colorize(Messages.UHC_JOIN_SUB_COMMAND_GAME_DOESNT_EXIST_MESSAGE.replace("%gameName%", gameName)));

@@ -30,9 +30,20 @@ public class Messages {
     public static String GAME_HAS_ALREADY_STARTED_JOINING_SPECTATOR_MODE_MESSAGE = messages.getString("gameplay.messages.gameHasAlreadyStartedJoiningSpectatorMode").orElse("&cGame has already started, you are joining in &6Spectator &8mode");
     public static String GAME_HAS_ALREADY_STARTED_CANT_JOIN_SPECTATOR_MODE_MESSAGE = messages.getString("gameplay.messages.gameHasAlreadyStartedCantJoinSpectatorMode").orElse("&cGame has already started, but as a party you can't spectate");
     public static String JOINING_TO_A_GAME_MESSAGE = messages.getString("gameplay.messages.joiningToAGame").orElse("&aJoining you to &6%gameName%");
+    public static String GAME_TEAM_WON_MESSAGE = messages.getString("gameplay.messages.gameTeamWon").orElse("&6Congrats &8to %gamePlayerNames% &8for winning this game");
+    public static String TIED_GAME_MESSAGE = messages.getString("gameplay.messages.tiedGame").orElse("&cTie! &8No one was able to claim the victory, ending game");
+    public static String GAME_FINISHED_TELEPORTING_TO_LOBBY_MESSAGE = messages.getString("gameplay.messages.gameFinishedTeleportingToLobby").orElse("&aThe game has ended, teleporting you back to the lobby");
 
     /*
-    * Player Title
+    * In Game Formats
+    * */
+    public static String GAME_TEAM_WON_GAME_PLAYER_NAME_DISPLAY_CONCATENATOR_FORMAT = messages.getString("gameplay.formats.gameTeamWonGamePlayerNameDisplayConcatenator").orElse("&8, ");
+    public static String GAME_TEAM_WON_GAME_PLAYER_NAME_DISPLAY_FORMAT = messages.getString("gameplay.formats.gameTeamWonGamePlayerNameDisplayFormat").orElse("&6%gamePlayerName%");
+    public static String GAME_TEAM_WON_OFFLINE_GAME_PLAYER_NAME_DISPLAY_FORMAT = messages.getString("gameplay.formats.gameTeamWonOfflineGamePlayerNameDisplayFormat").orElse("&c&o(Offline) &r&%gamePlayerName%");
+
+
+    /*
+    * In Game Player Title
     * */
     public static String STARTING_COUNTDOWN_NUMBER_TITLE = messages.getString("gameplay.titles.startingCountdownNumber").orElse("&e%timer%");
 

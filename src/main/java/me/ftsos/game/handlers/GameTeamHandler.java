@@ -11,14 +11,17 @@ import me.ftsos.utils.Callback;
 import me.ftsos.utils.CC;
 import me.ftsos.utils.config.Config;
 import me.ftsos.utils.config.Messages;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class GameTeamHandler implements GameHandler {
     private List<GameTeam> gameTeams;
@@ -120,8 +123,12 @@ public class GameTeamHandler implements GameHandler {
         });
         team.onPlayerKilled(gPlayer);
         if(!team.getPlayers().isEmpty()) return;
-        this.gameTeams.remove(team);
+        if((this.gameTeams.size() - 1) > 1) {
+            this.gameTeams.remove(team);
+            return;
+        }
 
+        this.uhcGame.updateGameState(GameState.FINISHING);
     }
 
     public void onWaiting() {
@@ -163,11 +170,46 @@ public class GameTeamHandler implements GameHandler {
     }
 
     public void onFinishing() {
+        if(this.gameTeams.size() > 0) {
+            List<String> playersNameList = new ArrayList<>();
+            this.gameTeams.get(0).getPlayers().forEach(gamePlayer -> {
+                if(gamePlayer.getPlayer().isPresent()) {
+                    playersNameList.add(Messages.GAME_TEAM_WON_GAME_PLAYER_NAME_DISPLAY_FORMAT.replace("%gamePlayerName%", gamePlayer.getPlayer().get().getDisplayName()));
+                } else {
+                    playersNameList.add(Messages.GAME_TEAM_WON_OFFLINE_GAME_PLAYER_NAME_DISPLAY_FORMAT.replace("%gamePlayerName%", gamePlayer.getPlayer().get().getDisplayName()));
+                }
+            });
 
+            String playersOnTeamNames = playersNameList.stream().collect(Collectors.joining(Messages.GAME_TEAM_WON_GAME_PLAYER_NAME_DISPLAY_CONCATENATOR_FORMAT));
+            this.uhcGame.broadcastMessage(CC.colorize(Messages.GAME_TEAM_WON_MESSAGE.replace("%gamePlayerNames%", playersOnTeamNames)));
+        } else {
+            this.uhcGame.broadcastMessage(Messages.TIED_GAME_MESSAGE);
+        }
+
+        //TODO: Wait some seconds and send fireworks, titles (to players and specs), add stats, and stuff
+        this.uhcGame.updateGameState(GameState.RESTARTING);
     }
 
     public void onRestarting() {
+        for(GamePlayer gamePlayer : this.getPlayers()) {
+                if(gamePlayer.getPlayer().isPresent()) {
+                    gamePlayer.sendMessage(CC.colorize(Messages.GAME_FINISHED_TELEPORTING_TO_LOBBY_MESSAGE));
+                    gamePlayer.getPlayer().ifPresent(player -> {
+                        //Teleporting all players back to lobby
+                        player.teleport(this.uhcGame.getLobby().getLobbyWorldHandler().getSpawnLocation());
+                    });
+                    continue;
+                }
+                //If player is a offline player
+                OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(gamePlayer.getPlayerUUID());
+                if(offlinePlayer.isOnline()) {
+                    offlinePlayer.getPlayer().teleport(this.uhcGame.getLobby().getLobbyWorldHandler().getSpawnLocation());
+                }
+                //TODO: Teleport the players even if they are offline players
+        }
 
+        this.gameTeams.clear();
+        this.gameTeams = new ArrayList<>();
     }
 
     @Override

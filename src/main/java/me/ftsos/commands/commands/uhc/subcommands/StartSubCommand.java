@@ -4,7 +4,6 @@ import dev.triumphteam.cmd.core.annotation.Requirement;
 import dev.triumphteam.cmd.core.annotation.SubCommand;
 import me.ftsos.commands.utils.ISubCommand;
 import me.ftsos.game.GameOptions;
-import me.ftsos.game.UhcGamesManager;
 import me.ftsos.game.UhcGamesManagerWrapper;
 import me.ftsos.utils.CC;
 import me.ftsos.utils.config.Messages;

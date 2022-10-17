@@ -28,57 +28,66 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+
     }
 
     @EventHandler
     public void onPlayerHitEntityEvent(PlayerGetsHitByEntityEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
     }
 
     @EventHandler
     public void onPlayerHitPlayerEvent(PlayerHitPlayerEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+
     }
 
     @EventHandler
     public void onPlayerTakeDamage(PlayerTakeDamageEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+
     }
 
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+
     }
 
     @EventHandler
     public void onPlayerFallIntoVoid(PlayerFallIntoVoidEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+
     }
 
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent event) {
-        uhcGamesManager.onEvent(event);
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+
     }
 
     /*
@@ -95,9 +104,7 @@ public class GameListener implements Listener {
         }
         event.getGame().broadcastMessage(deathMessage);
 
-        event.getVictim().getPlayer().ifPresent(player -> {
-            event.getGame().getGameTeamHandler().onPlayerGetKilled(event.getTeam(), event.getVictim());
-        });
+        event.getVictim().getPlayer().ifPresent(player -> event.getGame().getGameTeamHandler().onPlayerGetKilled(event.getTeam(), event.getVictim()));
     }
 
     /*
@@ -110,5 +117,13 @@ public class GameListener implements Listener {
         UhcGame game = event.getGame();
 
         game.getMapHandler().onGameStateUpdate(event);
+        game.getGameTeamHandler().onGameStateUpdate(event);
+        game.getGamePlayerWrapperHandler().onGameStateUpdate(event);
+        game.getGameListenerHandler().onGameStateUpdate(event);
+        game.getSpectatorHandler().onGameStateUpdate(event);
+        game.getTimeHandler().onGameStateUpdate(event);
+        game.getTaskHandler().onGameStateUpdate(event);
+
+        if(event.getNewGameState() == GameState.RESTARTING) game.removeGame();
     }
 }

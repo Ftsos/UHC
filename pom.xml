@@ -58,6 +58,8 @@
                             <shadedPattern>me.ftsos.nbteditor</shadedPattern>
                             <pattern>dev.triumphteam.cmd</pattern>
                             <shadedPattern>me.ftsos.cmd</shadedPattern>
+                            <pattern>dev.triumphteam.gui</pattern>
+                            <shadedPattern>me.ftsos.guiLibrary</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -104,10 +106,10 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
-        <!--<repository>
+        <repository>
             <id>repo</id>
             <url>https://repo.triumphteam.dev/snapshots/</url>
-        </repository>-->
+        </repository>
     </repositories>
 
     <dependencies>
@@ -145,6 +147,11 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations-java5</artifactId>
             <version>20.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.triumphteam</groupId>
+            <artifactId>triumph-gui</artifactId>
+            <version>3.1.2</version>
         </dependency>
     </dependencies>
 

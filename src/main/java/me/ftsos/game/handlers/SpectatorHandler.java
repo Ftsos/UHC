@@ -1,6 +1,7 @@
 package me.ftsos.game.handlers;
 
 import me.ftsos.events.game.GameStateUpdateEvent;
+import me.ftsos.game.GameState;
 import me.ftsos.game.UhcGame;
 import me.ftsos.game.players.GameSpectator;
 import me.ftsos.items.Items;
@@ -25,7 +26,12 @@ public class SpectatorHandler implements GameHandler{
 
     @Override
     public void onGameStateUpdate(GameStateUpdateEvent event) {
-
+        if(event.isCancelled()) return;
+        if(event.getNewGameState() != GameState.RESTARTING) return;
+        for(GameSpectator spectator : this.spectators) {
+            removeSpectator(spectator);
+        }
+        this.spectators.clear();
     }
 
     public void addSpectator(GameSpectator spectator) {
@@ -40,6 +46,7 @@ public class SpectatorHandler implements GameHandler{
         spectator.getPlayer().setGameMode(GameMode.SPECTATOR);
         spectator.getPlayer().sendTitle("", "");
         spectator.getPlayer().teleport(uhcGame.getMapHandler().getSpawnLocation());
+        givePlayerSpectatorInventory(spectator.getPlayer());
     }
 
     public List<GameSpectator> getSpectators() {

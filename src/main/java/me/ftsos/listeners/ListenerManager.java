@@ -3,6 +3,8 @@ package me.ftsos.listeners;
 import me.ftsos.UHC;
 import me.ftsos.game.GameListener;
 import me.ftsos.game.UhcGamesManager;
+import me.ftsos.gui.GuiManager;
+import me.ftsos.items.ItemsListener;
 import me.ftsos.lobby.LobbyListener;
 import me.ftsos.lobby.LobbyManager;
 import me.ftsos.managers.Manager;
@@ -31,5 +33,6 @@ public class ListenerManager extends Manager {
         pm.registerEvents(new MainListener(), this.plugin);
         pm.registerEvents(new GameListener(this.plugin.getManagerHandler().find(UhcGamesManager.class)), this.plugin);
         pm.registerEvents(new LobbyListener(this.plugin.getManagerHandler().find(LobbyManager.class)), this.plugin);
+        pm.registerEvents(new ItemsListener(this.plugin.getManagerHandler().find(GuiManager.class)), this.plugin);
     }
 }

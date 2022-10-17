@@ -23,6 +23,13 @@ gameplay:
     gameHasAlreadyStartedJoiningSpectatorMode: "&cGame has already started, you are joining in &6Spectator &8mode"
     gameHasAlreadyStartedCantJoinSpectatorMode: "&cGame has already started, but as a party you can't spectate"
     joiningToAGame: "&aJoining you to &6%gameName%"
+    gameTeamWon: "&6Congrats! &8to %gamePlayerNames% &8for winning this game"
+    tiedGame: "&cTie! &8No one was able to claim the victory, ending game"
+    gameFinishedTeleportingToLobby: "&aThe game has ended, teleporting you back to the lobby"
+  formats:
+    gameTeamWonGamePlayerNameDisplayConcatenator: "&8, "
+    gameTeamWonGamePlayerNameDisplayFormat: "&6%gamePlayerName%"
+    gameTeamWonOfflineGamePlayerNameDisplayFormat: "&c&o(Offline) &r&%gamePlayerName%"
   titles:
     startingCountdownNumber: "&e%timer%"
 commands:

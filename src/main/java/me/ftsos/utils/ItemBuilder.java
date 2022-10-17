@@ -4,10 +4,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import dev.triumphteam.gui.components.GuiAction;
+import dev.triumphteam.gui.guis.GuiItem;
 import org.bukkit.Color;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
@@ -233,5 +236,48 @@ public class ItemBuilder {
      */
     public ItemStack toItemStack(){
         return itemStack;
+    }
+
+    public GuiItem toGuiItem() {
+        return new GuiItem(this.toItemStack());
+    }
+
+    public GuiItem toGuiItem(GuiAction<InventoryClickEvent> eventGuiAction) {
+        return new GuiItem(this.toItemStack(), eventGuiAction);
+    }
+
+    public ItemBuilder setGlassColor(GlassColors color) {
+        this.itemStack.setDurability(color.getGlassColorDurability());
+        return this;
+    }
+
+    public enum GlassColors {
+        WHITE((short) 0),
+        ORANGE((short) 1),
+        MAGENTA((short) 2),
+        LIGHT_BLUE((short) 3),
+        YELLOW((short) 4),
+        LIME((short) 5),
+        PINK((short) 6),
+        GRAY((short) 7),
+        LIGHT_GRAY((short) 8),
+        SILVER((short) 8),
+        CYAN((short) 9),
+        PURPLE((short) 10),
+        BLUE((short) 11),
+        BROWN((short) 12),
+        GREEN((short) 13),
+        RED((short) 14),
+        BLACK((short) 15);
+
+        private short glassColorDurability;
+
+        GlassColors(short glassColorDurability) {
+            this.glassColorDurability = glassColorDurability;
+        }
+
+        public short getGlassColorDurability() {
+            return glassColorDurability;
+        }
     }
 }

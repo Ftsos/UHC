@@ -26,7 +26,7 @@ public class UhcGame {
         this.gameOptions = options;
         this.taskHandler = new TaskHandler(plugin, this);
         this.gameListenerHandler = new GameListenerHandler(this);
-        this.mapHandler = new MapHandler();
+        this.mapHandler = new MapHandler(this);
         this.gameState = GameState.WAITING;
         this.gameTeamHandler = new GameTeamHandler(this);
         this.spectatorHandler = new SpectatorHandler(this);
@@ -93,6 +93,10 @@ public class UhcGame {
 
     public GamePlayerWrapperHandler getGamePlayerWrapperHandler() {
         return gamePlayerWrapperHandler;
+    }
+
+    public void removeGame() {
+        this.plugin.getManagerHandler().find(UhcGamesManager.class).getUhcGamesManagerWrapper().removeUhcGame(this);
     }
 }
 
