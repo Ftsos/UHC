@@ -13,9 +13,7 @@ public class InfoSubCommand implements ISubCommand {
     public void infoSubCommand(CommandSender sender) {
         Bukkit.broadcastMessage(String.valueOf(Messages.UHC_INFO_SUB_COMMAND_MESSAGE));
         CC.colorizeMessageList(Messages.UHC_INFO_SUB_COMMAND_MESSAGE).forEach(
-                message -> {
-                    sender.sendMessage(message);
-                }
+                sender::sendMessage
         );
     }
 }
