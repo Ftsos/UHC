@@ -110,6 +110,10 @@
             <id>repo</id>
             <url>https://repo.triumphteam.dev/snapshots/</url>
         </repository>
+        <repository>
+            <id>jordanosterberg-repo</id>
+            <url>https://nexus-repo.jordanosterberg.com/repository/maven-releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -152,6 +156,16 @@
             <groupId>dev.triumphteam</groupId>
             <artifactId>triumph-gui</artifactId>
             <version>3.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>dev.jcsoftware</groupId>
+            <artifactId>JScoreboards</artifactId>
+            <version>2.1.5-RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
         </dependency>
     </dependencies>
 

@@ -26,7 +26,10 @@ gameplay:
     gameTeamWon: "&6Congrats! &8to %gamePlayerNames% &8for winning this game"
     tiedGame: "&cTie! &8No one was able to claim the victory, ending game"
     gameFinishedTeleportingToLobby: "&aThe game has ended, teleporting you back to the lobby"
+    gameTeamJoin: "&6%gameTeamPlayerNames% has joined &8(%slotsFilled%/%maxSlots%)"
   formats:
+    gameTeamJoinGamePlayerNameDisplayConcatenator: "&8, "
+    gameTeamJoinGamePlayerNameDisplayFormat: "&6%gamePlayerName%"
     gameTeamWonGamePlayerNameDisplayConcatenator: "&8, "
     gameTeamWonGamePlayerNameDisplayFormat: "&6%gamePlayerName%"
     gameTeamWonOfflineGamePlayerNameDisplayFormat: "&c&o(Offline) &r&%gamePlayerName%"
@@ -50,6 +53,9 @@ commands:
       message: "&aStarting new game: &6%gameName%"
       announceMessage: "&a&lNew Game Starting! &6&l%gameName%"
     joinSubCommand:
-      gameDoesntExist: "&cThe game \"%gameName%\" doesnt exist"
+      gameDoesntExist: "&cThe game \"%gameName%\" doesn't exist"
+    forceStopSubCommand:
+      gameDoesntExist: "&cThe game \"%gameName%\" doesn't exist"
+      gameStopped: "&cThe game &6%gameName% &chas been stopped"
 utils:
   noPermission: "&cYou don't have the permission to do that action"

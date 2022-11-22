@@ -50,7 +50,12 @@ public class GameListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerHitEntityEvent(PlayerGetsHitByEntityEvent event) {
+    public void onPlayerHitEntityEvent(PlayerHitEntityEvent event) {
+        uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
+    }
+
+    @EventHandler
+    public void onPlayerGetsHitByEntityEvent(PlayerGetsHitByEntityEvent event) {
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
     }
 

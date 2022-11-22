@@ -3,11 +3,12 @@ package me.ftsos.game.handlers;
 import me.ftsos.events.game.GameStateUpdateEvent;
 import me.ftsos.game.GameState;
 import me.ftsos.game.UhcGame;
-import org.apache.commons.lang.reflect.FieldUtils;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.UUID;
 
@@ -57,11 +58,10 @@ public class MapHandler implements GameHandler {
     private void deleteWorld(World world) {
         world.getPlayers().forEach(player -> player.teleport(this.uhcGame.getLobby().getLobbyWorldHandler().getSpawnLocation()));
         Bukkit.unloadWorld(world, false);
-        if(!world.getWorldFolder().exists()) return;
-        File[] files = world.getWorldFolder().listFiles();
-        if(files != null) {
-            Arrays.stream(files).forEach(File::delete);
+        try {
+            FileUtils.deleteDirectory(world.getWorldFolder());
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
-        world.getWorldFolder().delete();
     }
 }

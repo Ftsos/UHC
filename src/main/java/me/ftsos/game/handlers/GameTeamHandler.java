@@ -115,6 +115,10 @@ public class GameTeamHandler implements GameHandler {
                 playerJoinToGameInWaitingState(player);
             });
         }
+
+        if((getGameTeams().size()) >= uhcGame.getGameOptions().getMinTeams()) {
+            this.uhcGame.updateGameState(GameState.STARTING);
+        }
     }
 
     public void onPlayerGetKilled(GameTeam team, GamePlayer gPlayer) {

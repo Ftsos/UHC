@@ -54,6 +54,8 @@ public class Messages {
     public static String UHC_START_SUB_COMMAND_MESSAGE = messages.getString("commands.uhc.startSubCommand.message").orElse("&aStarting new game: &6%gameName%");
     public static String UHC_START_SUB_COMMAND_ANNOUNCE_MESSAGE = messages.getString("commands.uhc.startSubCommand.announceMessage").orElse("&a&lNew Game Starting! &6&l%gameName%");
     public static String UHC_JOIN_SUB_COMMAND_GAME_DOESNT_EXIST_MESSAGE = messages.getString("commands.uhc.joinSubCommand.gameDoesntExist").orElse("&cThe game \"%gameName%\" doesnt exist");
+    public static String UHC_FORCE_STOP_SUB_COMMAND_GAME_DOESNT_EXIST_MESSAGE = messages.getString("commands.uhc.forceStopSubCommand.gameDoesntExist").orElse("&cThe game \"%gameName%\" doesn't exist");
+    public static String UHC_FORCE_STOP_SUB_COMMAND_GAME_STOPPED_MESSAGE = messages.getString("commands.uhc.forceStopSubCommand.gameStopped").orElse("&cThe game &6%gameName% &chas been stopped");
     /*
     * Utils
     * */

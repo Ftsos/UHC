@@ -11,7 +11,36 @@ public class Inventories {
      * Handler of the inventories.yml file
     * */
 
-     /*
+    /*
+    * Lobby Games Gui
+    * */
+    public static int ROWS_GAMES_GUI = inventories.getInt("lobby.openGamesGui.rows");
+    public static int PAGE_SIZE_GAMES_GUI = inventories.getInt("lobby.openGamesGui.pageSize");
+    public static String TITLE_GAMES_GUI = inventories.getString("lobby.openGamesGui.title").orElse("Games");
+
+    /*
+    * Lobby Games Gui Items
+    * */
+
+    /*
+    * Previous Item
+    * */
+    public static Material PREVIOUS_ITEM_MATERIAL_GAMES_GUI = Material.getMaterial(inventories.getString("lobby.openGamesGui.previousItem.material").orElse("ARROW")) == null ? Material.ARROW : Material.getMaterial(inventories.getString("lobby.openGamesGui.previousItem.material").orElse("ARROW"));
+    public static int PREVIOUS_ITEM_ROW_GAMES_GUI = inventories.getInt("lobby.openGamesGui.previousItem.row");
+    public static int PREVIOUS_ITEM_COL_GAMES_GUI = inventories.getInt("lobby.openGamesGui.previousItem.col");
+    public static String PREVIOUS_ITEM_NAME_GAMES_GUI = inventories.getString("lobby.openGamesGui.previousItem.name").orElse("&8Previous");
+
+    /*
+    * Next Item
+    * */
+
+    public static Material NEXT_ITEM_MATERIAL_GAMES_GUI = Material.getMaterial(inventories.getString("lobby.openGamesGui.nextItem.material").orElse("ARROW")) == null ? Material.ARROW : Material.getMaterial(inventories.getString("openGamesGui.previousItem.material").orElse("ARROW"));
+    public static int NEXT_ITEM_ROW_GAMES_GUI = inventories.getInt("lobby.openGamesGui.nextItem.row");
+    public static int NEXT_ITEM_COL_GAMES_GUI = inventories.getInt("lobby.openGamesGui.nextItem.col");
+    public static String NEXT_ITEM_NAME_GAMES_GUI = inventories.getString("lobby.openGamesGui.nextItem.name").orElse("&8Next");
+
+
+    /*
      * Spectator Inventory
      * */
 

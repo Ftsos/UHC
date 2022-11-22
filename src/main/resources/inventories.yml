@@ -22,3 +22,17 @@ lobby:
     material: COMPASS
     slot: 0
     name: '&aGames'
+  openGamesGui:
+    rows: 6
+    pageSize: 45
+    title: "Games"
+    previousItem:
+      material: ARROW
+      row: 6
+      col: 1
+      name: "&8Previous"
+    nextItem:
+      material: ARROW
+      row: 6
+      col: 9
+      name: "&8Next"

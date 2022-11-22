@@ -17,6 +17,7 @@ public class Permissions {
     public static final String UHC_START_SUB_COMMAND_PERMISSION = permissions.getString("commands.uhc.subCommands.start").orElse("uhc.command.start");
     public static final String UHC_INFO_SUB_COMMAND_PERMISSION = permissions.getString("commands.uhc.subCommands.info").orElse("uhc.command.info");
     public static final String UHC_JOIN_SUB_COMMAND_PERMISSION = permissions.getString("commands.uhc.subCommands.join").orElse("uhc.command.join");
+    public static final String UHC_FORCE_STOP_SUB_COMMAND_PERMISSION = permissions.getString("commands.uhc.subCommands.forceStop").orElse("uhc.command.forceStop");
 
     /*
     * Actions (Breaking/Placing blocks, etc)

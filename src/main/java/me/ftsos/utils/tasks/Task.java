@@ -37,13 +37,22 @@ public abstract class Task {
     public abstract void runCustomTask();
 
     public void cancel() {
-        this.runnable.cancel();
-        this.taskManager.unregister(this, () -> {});
+        try {
+            this.runnable.cancel();
+            this.taskManager.unregister(this, () -> {
+            });
+        } catch (IllegalStateException exception) {
+
+        }
     }
 
     public void cancel(Callback onCancelingCallback) {
+        try {
         this.runnable.cancel();
         this.taskManager.unregister(this, () -> {});
+        } catch (IllegalStateException exception) {
+
+        }
     }
 
     public void runTask() {

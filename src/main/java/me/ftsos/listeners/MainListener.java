@@ -66,6 +66,18 @@ public class MainListener implements Listener {
     }
 
     @EventHandler
+    public void onPlayerHitEntityEvent(EntityDamageByEntityEvent event) {
+        if(event.isCancelled()) return;
+        if(event.getDamager().getType() != EntityType.PLAYER) return;
+        if(!(event.getDamager() instanceof Player)) return;
+        Player player = (Player) event.getDamager();
+        PlayerHitEntityEvent playerHitEntityEvent = new PlayerHitEntityEvent(player, event.getEntity(), event.getCause(), event.getDamage(), event.getFinalDamage());
+        Bukkit.getPluginManager().callEvent(playerHitEntityEvent);
+
+        if(playerHitEntityEvent.isCancelled()) event.setCancelled(true);
+     }
+
+    @EventHandler
     public void onPlayerGetsHitByEntity(EntityDamageByEntityEvent event) {
         if(event.isCancelled()) return;
         if(event.getEntity().getType() != EntityType.PLAYER) return;

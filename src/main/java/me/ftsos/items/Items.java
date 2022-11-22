@@ -3,6 +3,7 @@ package me.ftsos.items;
 import me.ftsos.utils.CC;
 import me.ftsos.utils.ItemBuilder;
 import me.ftsos.utils.config.Inventories;
+import org.bukkit.entity.Item;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
@@ -23,4 +24,14 @@ public class Items {
     * Lobby Items
     * */
     public static ItemStack OPEN_GAMES_ITEM_LOBBY = new ItemBuilder(Inventories.OPEN_GAMES_ITEM_MATERIAL_LOBBY).setName(CC.colorize(Inventories.OPEN_GAMES_ITEM_NAME_LOBBY)).toItemStack();
+
+    /*
+    * GUI Items
+    * */
+
+    /*
+    * Games Gui Items
+    * */
+    public static ItemStack PREVIOUS_ITEM_GAMES_GUI = new ItemBuilder(Inventories.PREVIOUS_ITEM_MATERIAL_GAMES_GUI).setName(CC.colorize(Inventories.PREVIOUS_ITEM_NAME_GAMES_GUI)).toItemStack();
+    public static ItemStack NEXT_ITEM_GAMES_GUI = new ItemBuilder(Inventories.NEXT_ITEM_MATERIAL_GAMES_GUI).setName(CC.colorize(Inventories.NEXT_ITEM_NAME_GAMES_GUI)).toItemStack();
 }

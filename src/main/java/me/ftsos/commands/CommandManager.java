@@ -15,6 +15,7 @@ import me.ftsos.UHC;
 import me.ftsos.commands.commands.uhc.UhcCommand;
 import me.ftsos.commands.commands.uhc.arguments.GameOptionsArgument;
 import me.ftsos.commands.commands.uhc.requirements.HasPermissionRequirement;
+import me.ftsos.commands.commands.uhc.subcommands.ForceStopSubCommand;
 import me.ftsos.commands.commands.uhc.subcommands.InfoSubCommand;
 import me.ftsos.commands.commands.uhc.subcommands.JoinSubCommand;
 import me.ftsos.commands.commands.uhc.subcommands.StartSubCommand;
@@ -85,6 +86,7 @@ public class CommandManager extends Manager {
         registerPermission("infoCommand", Permissions.UHC_INFO_SUB_COMMAND_PERMISSION);
         registerPermission("startSubCommand", Permissions.UHC_START_SUB_COMMAND_PERMISSION);
         registerPermission("joinSubCommand", Permissions.UHC_JOIN_SUB_COMMAND_PERMISSION);
+        registerPermission("forceStopSubCommand", Permissions.UHC_FORCE_STOP_SUB_COMMAND_PERMISSION);
         registerPermissionsRequirements();
     }
 
@@ -317,7 +319,8 @@ public class CommandManager extends Manager {
         this.registerCommand(new UhcCommand(),
                 new StartSubCommand(uhcGamesManagerWrapper),
                 new InfoSubCommand(),
-                new JoinSubCommand(uhcGamesManagerWrapper)
+                new JoinSubCommand(uhcGamesManagerWrapper),
+                new ForceStopSubCommand(uhcGamesManagerWrapper)
                 );
     }
 }

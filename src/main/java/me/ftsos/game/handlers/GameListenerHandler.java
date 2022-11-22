@@ -3,6 +3,7 @@ package me.ftsos.game.handlers;
 import me.ftsos.events.game.GameStateUpdateEvent;
 import me.ftsos.events.player.PlayerDeathEvent;
 import me.ftsos.events.game.UhcGamePlayerDeathEvent;
+import me.ftsos.events.player.PlayerHitEntityEvent;
 import me.ftsos.events.player.PlayerTakeDamageEvent;
 import me.ftsos.game.GameState;
 import me.ftsos.game.UhcGame;
@@ -57,6 +58,10 @@ public class GameListenerHandler implements GameHandler {
 
         if(generalEvent instanceof FoodLevelChangeEvent) {
             onFoodLevelChange((FoodLevelChangeEvent) generalEvent);
+        }
+
+        if(generalEvent instanceof PlayerHitEntityEvent) {
+            onPlayerHitEntityEvent((PlayerHitEntityEvent) generalEvent);
         }
     }
 
@@ -127,6 +132,19 @@ public class GameListenerHandler implements GameHandler {
         if(event.getEntity().getType() != EntityType.PLAYER) return;
 
         Player player = (Player) event.getEntity();
+
+        if(!this.game.getGameTeamHandler().lobbyContainsBukkitPlayer(player)) return;
+
+        if(!(this.game.getGameState() == GameState.WAITING ||
+                this.game.getGameState() == GameState.RESTARTING ||
+                this.game.getGameState() == GameState.FINISHING ||
+                this.game.getGameState() == GameState.STARTING)) return;
+
+        event.setCancelled(true);
+    }
+
+    public void onPlayerHitEntityEvent(PlayerHitEntityEvent event) {
+        Player player = event.getPlayer();
 
         if(!this.game.getGameTeamHandler().lobbyContainsBukkitPlayer(player)) return;
 

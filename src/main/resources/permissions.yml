@@ -5,5 +5,6 @@ commands:
       start: "uhc.command.start"
       info: "uhc.command.info"
       join: "uhc.command.join"
+      forceStop: "uhc.command.forceStop"
 lobby:
   buildingOrBreakingOnLobbyPermission: "uhc.buildingOrBreakingOnLobby"

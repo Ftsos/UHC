@@ -1,58 +1,59 @@
 package me.ftsos.gui.impl;
 
+import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import me.ftsos.game.UhcGame;
 import me.ftsos.gui.Gui;
+import me.ftsos.gui.PerPlayerGui;
+import me.ftsos.items.Items;
 import me.ftsos.utils.ItemBuilder;
+import me.ftsos.utils.config.Inventories;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
-public class GamesGui implements Gui<PaginatedGui> {
+public class GamesGui extends PerPlayerGui<GamesGui> implements Gui<PaginatedGui>{
     private PaginatedGui gui;
-    private List<UhcGame> uhcGamesBeingDisplayed;
+    private static Map<UhcGame, GuiItem> uhcGamesBeingDisplayed = new HashMap<>();
 
     public GamesGui() {
-        //TODO: Add Names From Config
-        //TODO: Add Configurable rows and page Size
-        this.uhcGamesBeingDisplayed = new ArrayList<>();
-
         this.gui = dev.triumphteam.gui.guis.Gui.paginated()
-                .title(Component.text(""))
-                .rows(6)
-                .pageSize(45)
+                .title(Component.text(Inventories.TITLE_GAMES_GUI))
+                .rows(Inventories.ROWS_GAMES_GUI)
+                .pageSize(Inventories.PAGE_SIZE_GAMES_GUI)
                 .create();
 
-        //Fill the borders with black
-        this.gui.getFiller().fillBorder(new ItemBuilder(Material.STAINED_GLASS_PANE).setGlassColor(ItemBuilder.GlassColors.BLACK).toGuiItem(event -> event.setCancelled(true)));
+        //TODO: Feature: Make the border item customizable
+        //Fill the borders with black stained glass pane
+        this.gui.getFiller().fillBorder(new ItemBuilder(Material.STAINED_GLASS_PANE).setGlassColor(ItemBuilder.GlassColors.BLACK).setName(" ").toGuiItem(event -> event.setCancelled(true)));
 
         //Col and row start from 1, 1
-        //TODO: Add Names From Config
         //Add Next Arrow
-        this.gui.setItem(6, 1, new ItemBuilder(Material.ARROW).setName("").toGuiItem(event -> {
+        this.gui.setItem(Inventories.PREVIOUS_ITEM_ROW_GAMES_GUI, Inventories.PREVIOUS_ITEM_COL_GAMES_GUI, new ItemBuilder(Items.PREVIOUS_ITEM_GAMES_GUI).toGuiItem(event -> {
             event.setCancelled(true);
             this.gui.next();
         }));
 
         //Add Preview Arrow
-        this.gui.setItem(6, 9, new ItemBuilder(Material.ARROW).setName("").toGuiItem(event -> {
+        this.gui.setItem(Inventories.NEXT_ITEM_ROW_GAMES_GUI, Inventories.NEXT_ITEM_COL_GAMES_GUI, new ItemBuilder(Items.NEXT_ITEM_GAMES_GUI).toGuiItem(event -> {
             event.setCancelled(true);
             this.gui.previous();
         }));
 
-        for(UhcGame uhcGame : this.uhcGamesBeingDisplayed) {
-            if(!uhcGame.getGameOptions().isShouldGameAppearOnGamesGui()) continue;
-            this.gui.addItem(new ItemBuilder(uhcGame.getGameOptions().getItemToShowOnGamesGui()).toGuiItem(event -> {
-                if(event.getWhoClicked() instanceof Player)
-                uhcGame.getGamePlayerWrapperHandler().playerAloneJoin((Player) event.getWhoClicked());
-            }));
-        }
+        registerAllAvailableGames();
 
-        //TODO: I think we will need to add a custom method in order to put the items respecting the border, check on server and do a method if needed
         this.gui.update();
+        this.updateGuis();
+    }
+
+    public void registerAllAvailableGames() {
+        for(Map.Entry<UhcGame, GuiItem> entry : uhcGamesBeingDisplayed.entrySet()) {
+            this.gui.addItem(entry.getValue());
+        }
     }
 
     @Override
@@ -61,17 +62,24 @@ public class GamesGui implements Gui<PaginatedGui> {
     }
 
     public void onNewGameGettingRegistered(UhcGame uhcGame) {
-        this.uhcGamesBeingDisplayed.add(uhcGame);
-        this.gui.addItem(new ItemBuilder(uhcGame.getGameOptions().getItemToShowOnGamesGui()).toGuiItem(event -> {
+        if(!uhcGame.getGameOptions().isShouldGameAppearOnGamesGui()) return;
+        GuiItem guiItem = new ItemBuilder(uhcGame.getGameOptions().getItemToShowOnGamesGui()).toGuiItem(event -> {
             if(event.getWhoClicked() instanceof Player)
                 uhcGame.getGamePlayerWrapperHandler().playerAloneJoin((Player) event.getWhoClicked());
-        }));
-        this.gui.update();
+        });
+        uhcGamesBeingDisplayed.put(uhcGame, guiItem);
+        this.addItemToGuis(guiItem);
+        this.updateGuis();
     }
 
+
+
     public void onGameBeingRemoved(UhcGame uhcGame) {
+        if(!uhcGame.getGameOptions().isShouldGameAppearOnGamesGui()) return;
+        Optional<GuiItem> guiItem = Optional.ofNullable(this.uhcGamesBeingDisplayed.get(uhcGame));
+        guiItem.ifPresent(this::removeItemToGuis);
         this.uhcGamesBeingDisplayed.remove(uhcGame);
-        this.gui.removeItem(uhcGame.getGameOptions().getItemToShowOnGamesGui());
-        this.gui.update();
+        this.updateGuis();
     }
+
 }
