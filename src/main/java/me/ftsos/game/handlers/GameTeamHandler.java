@@ -113,6 +113,7 @@ public class GameTeamHandler implements GameHandler {
         for(GamePlayer gPlayer : team.getPlayers()) {
             gPlayer.getPlayer().ifPresent(player -> {
                 playerJoinToGameInWaitingState(player);
+                this.uhcGame.getGameScoreboardHandler().onPlayerJoinScoreboardGame(player);
             });
         }
 
@@ -122,7 +123,12 @@ public class GameTeamHandler implements GameHandler {
     }
 
     public void onPlayerGetKilled(GameTeam team, GamePlayer gPlayer) {
+        if(this.uhcGame.getGameState() == GameState.WAITING ||
+                this.uhcGame.getGameState() == GameState.STARTING ||
+                this.uhcGame.getGameState() == GameState.FINISHING ||
+                this.uhcGame.getGameState() == GameState.RESTARTING) return;
         gPlayer.getPlayer().ifPresent(player -> {
+            this.uhcGame.getGameScoreboardHandler().onPlayerLeaveScoreboardGame(player);
             this.uhcGame.getSpectatorHandler().addSpectator(new GameSpectator(player));
         });
         team.onPlayerKilled(gPlayer);

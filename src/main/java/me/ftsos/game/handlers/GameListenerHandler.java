@@ -77,7 +77,7 @@ public class GameListenerHandler implements GameHandler {
         GameTeam gameTeam = this.game.getGameTeamHandler().getTeam(victim);
 
         event.setCancelled(true);
-
+        //TODO: Don't send the UhcGamePlayerDeathEvent if the game hasn't started yet
         UhcGamePlayerDeathEvent uhcGamePlayerDeathEvent = new UhcGamePlayerDeathEvent(victim, killer, game, gameTeam, damageCause);
         Bukkit.getPluginManager().callEvent(uhcGamePlayerDeathEvent);
     }

@@ -12,6 +12,7 @@ public class ConfigManager extends Manager {
     private final IYaml messages;
     private final IYaml inventories;
     private final IYaml permissions;
+    private final IYaml scoreboards;
 
     public ConfigManager(UHC plugin) {
         super(plugin);
@@ -20,6 +21,7 @@ public class ConfigManager extends Manager {
         messages = new YamlOf(plugin, "messages.yml");
         inventories = new YamlOf(plugin, "inventories.yml");
         permissions = new YamlOf(plugin, "permissions.yml");
+        scoreboards = new YamlOf(plugin, "scoreboards.yml");
     }
 
     @Override
@@ -28,6 +30,7 @@ public class ConfigManager extends Manager {
         messages.create();
         inventories.create();
         permissions.create();
+        scoreboards.create();
     }
 
     @Override
@@ -49,5 +52,9 @@ public class ConfigManager extends Manager {
 
     public IYaml getPermissions() {
         return permissions;
+    }
+
+    public IYaml getScoreboards() {
+        return scoreboards;
     }
 }

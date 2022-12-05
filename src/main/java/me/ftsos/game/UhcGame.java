@@ -19,6 +19,7 @@ public class UhcGame {
     private SpectatorHandler spectatorHandler;
     private TimeHandler timeHandler;
     private GamePlayerWrapperHandler gamePlayerWrapperHandler;
+    private GameScoreboardHandler gameScoreboardHandler;
     private UHC plugin;
 
     public UhcGame(GameOptions options, UHC plugin) {
@@ -32,6 +33,7 @@ public class UhcGame {
         this.spectatorHandler = new SpectatorHandler(this);
         this.timeHandler = new TimeHandler(this);
         this.gamePlayerWrapperHandler = new GamePlayerWrapperHandler(this);
+        this.gameScoreboardHandler = new GameScoreboardHandler(this);
         this.updateGameState(GameState.WAITING);
     }
 
@@ -93,6 +95,10 @@ public class UhcGame {
 
     public GamePlayerWrapperHandler getGamePlayerWrapperHandler() {
         return gamePlayerWrapperHandler;
+    }
+
+    public GameScoreboardHandler getGameScoreboardHandler() {
+        return gameScoreboardHandler;
     }
 
     public void removeGame() {

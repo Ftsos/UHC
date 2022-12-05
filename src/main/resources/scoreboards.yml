@@ -1,0 +1,112 @@
+waitingGameStateScoreboardTitle: "&6UHC"
+waitingGameStateScoreboard:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+
+startingGameStateScoreboardTitle: "&6UHC"
+startingGameStateScoreboard:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+
+playingGameStateScoreboardTitle: "&6UHC"
+playingGameStateScoreboard:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+
+deathmatchGameStateScoreboardTitle: "&6UHC"
+deathmatchGameStateScoreboard:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+
+finishingGameStateScoreboardTitle: "&6UHC"
+finishingGameStateScoreboard:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+
+#This Scoreboard Should Never Display, You Can Ignore It, Or Put a Message to inform the user they should report it
+restartingGameStateScoreboardTitle: "&6UHC"
+restartingGameStateScoreboard:
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+
+
+
+
