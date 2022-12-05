@@ -28,57 +28,67 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
 
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
 
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
 
     }
 
     @EventHandler
     public void onPlayerHitEntityEvent(PlayerHitEntityEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
     }
 
     @EventHandler
     public void onPlayerGetsHitByEntityEvent(PlayerGetsHitByEntityEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
     }
 
     @EventHandler
     public void onPlayerHitPlayerEvent(PlayerHitPlayerEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
 
     }
 
     @EventHandler
     public void onPlayerTakeDamage(PlayerTakeDamageEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
 
     }
 
     @EventHandler
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
 
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
+        if(event.isCancelled()) return;
         uhcGamesManager.getUhcGamesManagerWrapper().onEvent(event);
 
     }
@@ -101,6 +111,11 @@ public class GameListener implements Listener {
 
     @EventHandler
     public void onGamePlayerDeath(UhcGamePlayerDeathEvent event) {
+        if(event.getGame().getGameState() == GameState.WAITING ||
+                event.getGame().getGameState() == GameState.STARTING ||
+                event.getGame().getGameState() == GameState.FINISHING ||
+                event.getGame().getGameState() == GameState.RESTARTING) return;
+
         String deathMessage = "";
         if(event.getKiller() == null) {
             deathMessage = Messages.NATURAL_PLAYER_DEATH_MESSAGE.replace("%player%", Bukkit.getOfflinePlayer(event.getVictim().getPlayerUUID()).getName()).replace("%death_cause%", event.getCause().name());
@@ -128,6 +143,7 @@ public class GameListener implements Listener {
         game.getSpectatorHandler().onGameStateUpdate(event);
         game.getTimeHandler().onGameStateUpdate(event);
         game.getTaskHandler().onGameStateUpdate(event);
+        game.getGameScoreboardHandler().onGameStateUpdate(event);
 
         if(event.getNewGameState() == GameState.RESTARTING) game.removeGame();
     }

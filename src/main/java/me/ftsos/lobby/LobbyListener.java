@@ -35,16 +35,19 @@ public class LobbyListener implements Listener {
 
     @EventHandler
     public void onPlayerTakeDamage(PlayerTakeDamageEvent event) {
+        if(event.isCancelled()) return;
         lobbyManager.onEvent(event);
     }
 
     @EventHandler
     public void onPlayerBlockPlace(BlockPlaceEvent event) {
+        if(event.isCancelled()) return;
         lobbyManager.onEvent(event);
     }
 
     @EventHandler
     public void onPlayerBlockBreak(BlockBreakEvent event) {
+        if(event.isCancelled()) return;
         lobbyManager.onEvent(event);
     }
 

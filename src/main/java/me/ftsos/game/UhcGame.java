@@ -101,7 +101,24 @@ public class UhcGame {
         return gameScoreboardHandler;
     }
 
+    /*
+    * This method will finish the game accordingly but forcefully, won't send fireworks or get a winner, but will automatically finish the game
+    * and at some point will execute the function removeGame().
+    * */
+    public void forcefullyFinishGame() {
+        this.updateGameState(GameState.RESTARTING);
+    }
+
+    /*
+    * This method is only meant to be used when the game HAS ALREADY FINISHED, and just left to be removed, if you use this method
+    * on a game that hasn't finished, the people in the game won't left, and map won't be erased, and in general more problems etc.
+    * if you want to forcefully end the game use the forcefullyFinishGame() method, this method is only to remove games that are already
+    * in the gamestate of restarting (i.e. which players are outside of lobby, scoreboards closed) this method will basically just remove a game
+    * from the game list found in the manager class (UhcGamesManager). The forcefullyFinishGame() method at some point executes this method, no need to call again
+    * */
+
     public void removeGame() {
+        if(this.getGameState() != GameState.RESTARTING) return;
         this.plugin.getManagerHandler().find(UhcGamesManager.class).getUhcGamesManagerWrapper().removeUhcGame(this);
     }
 }

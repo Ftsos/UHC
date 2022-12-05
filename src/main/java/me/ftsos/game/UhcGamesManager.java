@@ -29,7 +29,9 @@ public class UhcGamesManager extends Manager {
 
     @Override
     public void disable() {
-
+        for (UhcGame game : this.games) {
+            game.forcefullyFinishGame();
+        }
     }
 
 

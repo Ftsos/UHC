@@ -66,6 +66,7 @@ public class GameListenerHandler implements GameHandler {
     }
 
     public void onPlayerKillEvent(PlayerDeathEvent event) {
+        if(event.isCancelled()) return;
         if(!this.game.getGameTeamHandler().lobbyContainsBukkitPlayer(event.getVictim())) return;
 
         Player bukkitVictim = event.getVictim();
@@ -77,12 +78,13 @@ public class GameListenerHandler implements GameHandler {
         GameTeam gameTeam = this.game.getGameTeamHandler().getTeam(victim);
 
         event.setCancelled(true);
-        //TODO: Don't send the UhcGamePlayerDeathEvent if the game hasn't started yet
+
         UhcGamePlayerDeathEvent uhcGamePlayerDeathEvent = new UhcGamePlayerDeathEvent(victim, killer, game, gameTeam, damageCause);
         Bukkit.getPluginManager().callEvent(uhcGamePlayerDeathEvent);
     }
 
     public void onPlayerBlockPlaceEvent(BlockPlaceEvent event) {
+        if(event.isCancelled()) return;
         //Checking event for looking if cannot place blocks
         Player player = event.getPlayer();
 
@@ -99,6 +101,7 @@ public class GameListenerHandler implements GameHandler {
     }
 
     public void onPlayerBlockBreakEvent(BlockBreakEvent event) {
+        if(event.isCancelled()) return;
         //Checking event for looking if cannot place blocks
         Player player = event.getPlayer();
 
@@ -115,6 +118,7 @@ public class GameListenerHandler implements GameHandler {
     }
 
     public void onPlayerTakeDamage(PlayerTakeDamageEvent event) {
+        if(event.isCancelled()) return;
         Player player = event.getPlayer();
 
         if(!this.game.getGameTeamHandler().lobbyContainsBukkitPlayer(player)) return;
@@ -128,6 +132,7 @@ public class GameListenerHandler implements GameHandler {
     }
 
     public void onFoodLevelChange(FoodLevelChangeEvent event) {
+        if(event.isCancelled()) return;
         if(!(event.getEntity() instanceof Player)) return;
         if(event.getEntity().getType() != EntityType.PLAYER) return;
 
@@ -144,6 +149,7 @@ public class GameListenerHandler implements GameHandler {
     }
 
     public void onPlayerHitEntityEvent(PlayerHitEntityEvent event) {
+        if(event.isCancelled()) return;
         Player player = event.getPlayer();
 
         if(!this.game.getGameTeamHandler().lobbyContainsBukkitPlayer(player)) return;
