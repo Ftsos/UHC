@@ -1,7 +1,5 @@
-minPlayers: 5
-maxPlayers: 100
 spawnRadius: 500
-mapRadius: 1000
+mapBorder: 1000
 startingCountdownTimer: 10
 lobby:
   lobbyWorldName: "lobby"
@@ -12,3 +10,5 @@ lobby:
     yaw: 0
     pitch: 0
   buildingOrBreakingOnLobbyPermission: "uhc.buildingOrBreakingOnLobby"
+lobbyInGameSchematic: "LobbyInGameSchematic.schematic"
+lobbyInGameHeightToPasteSchematic: 185

@@ -14,4 +14,6 @@ public class Config {
     public static double LOBBY_SPAWN_Z_COORD = config.getSection("").getDouble("lobby.spawn.z");
     public static float LOBBY_SPAWN_YAW_COORD = (float) config.getSection("").getDouble("lobby.spawn.yaw");
     public static float LOBBY_SPAWN_PITCH_COORD = (float) config.getSection("").getDouble("lobby.spawn.pitch");
+    public static String LOBBY_IN_GAME_SCHEMATIC = config.getString("lobbyInGameSchematic").orElse("LobbyInGameSchematic.schematic");
+    public static int LOBBY_IN_GAME_HEIGHT_TO_PASTE_SCHEMATIC = config.getInt("lobbyInGameHeightToPasteSchematic");
 }

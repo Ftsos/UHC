@@ -6,6 +6,7 @@ import me.ftsos.game.UhcGamesManager;
 import me.ftsos.gui.GuiManager;
 import me.ftsos.listeners.ListenerManager;
 import me.ftsos.lobby.LobbyManager;
+import me.ftsos.utils.dependencies.DependencyManager;
 import me.ftsos.utils.tasks.TaskManager;
 import me.ftsos.utils.config.ConfigManager;
 
@@ -56,12 +57,13 @@ public class ManagerHandler {
     public void unregister(Class<? extends Manager> manager) {
         if(find(manager) == null) return;
         find(manager).disable();
-        this.managers.remove(manager.getClass());
+        this.managers.remove(manager);
     }
 
     public void registerManagers() {
         register(new ConfigManager(plugin));
         register(new TaskManager(plugin));
+        register(new DependencyManager(plugin));
         register(new LobbyManager(plugin));
         register(new UhcGamesManager(plugin));
         register(new GuiManager(plugin));
