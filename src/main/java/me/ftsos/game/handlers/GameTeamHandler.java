@@ -141,7 +141,20 @@ public class GameTeamHandler implements GameHandler {
         this.uhcGame.updateGameState(GameState.FINISHING);
     }
 
-    public void onWaiting() {
+    public void onPlayerLeaveInNonPlayingGameState(GamePlayer gPlayer) {
+        if(!(this.uhcGame.getGameState() == GameState.WAITING ||
+                this.uhcGame.getGameState() == GameState.RESTARTING ||
+                this.uhcGame.getGameState() == GameState.FINISHING ||
+                this.uhcGame.getGameState() == GameState.STARTING)) return;
+
+        //TODO: Teleport them while the player is offline
+        gPlayer.getPlayer().ifPresent(player -> {
+            this.uhcGame.getGameScoreboardHandler().onPlayerLeaveScoreboardGame(player);
+        });
+
+    }
+
+    private void onWaiting() {
         //Teleport all players to spawn
         //Will be called at the very start of the game, no one should be there but just in case
         for(GamePlayer gPlayer : getPlayers()) {
@@ -152,7 +165,7 @@ public class GameTeamHandler implements GameHandler {
     }
 
 
-    public void onStarting() {
+    private void onStarting() {
         //Call the countdown
         startStartingCountdown(() -> {
             //Called when the countdown has ended
@@ -166,7 +179,7 @@ public class GameTeamHandler implements GameHandler {
         });
     }
 
-    public void onPlaying() {
+    private void onPlaying() {
         //TODO: Send Messages & Titles for playing state
         for(GameTeam team : this.gameTeams) {
             Location teamSpawnLocation = randomSpawnLocation();
@@ -175,11 +188,11 @@ public class GameTeamHandler implements GameHandler {
 
     }
 
-    public void onDeathmatch() {
+    private void onDeathmatch() {
 
     }
 
-    public void onFinishing() {
+    private void onFinishing() {
         if(this.gameTeams.size() > 0) {
             List<String> playersNameList = new ArrayList<>();
             this.gameTeams.get(0).getPlayers().forEach(gamePlayer -> {
@@ -200,7 +213,7 @@ public class GameTeamHandler implements GameHandler {
         this.uhcGame.updateGameState(GameState.RESTARTING);
     }
 
-    public void onRestarting() {
+    private void onRestarting() {
         for(GamePlayer gamePlayer : this.getPlayers()) {
                 if(gamePlayer.getPlayer().isPresent()) {
                     gamePlayer.sendMessage(CC.colorize(Messages.GAME_FINISHED_TELEPORTING_TO_LOBBY_MESSAGE));

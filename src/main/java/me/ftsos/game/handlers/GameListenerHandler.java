@@ -18,6 +18,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class GameListenerHandler implements GameHandler {
     private UhcGame game;
@@ -62,6 +63,10 @@ public class GameListenerHandler implements GameHandler {
 
         if(generalEvent instanceof PlayerHitEntityEvent) {
             onPlayerHitEntityEvent((PlayerHitEntityEvent) generalEvent);
+        }
+
+        if(generalEvent instanceof PlayerQuitEvent) {
+            onPlayerDisconnect((PlayerQuitEvent) generalEvent);
         }
     }
 
@@ -160,5 +165,25 @@ public class GameListenerHandler implements GameHandler {
                 this.game.getGameState() == GameState.STARTING)) return;
 
         event.setCancelled(true);
+    }
+
+    public void onPlayerDisconnect(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+
+        if(!this.game.getGameTeamHandler().lobbyContainsBukkitPlayer(player)) {
+            if((this.game.getGameState() == GameState.WAITING ||
+                    this.game.getGameState() == GameState.RESTARTING ||
+                    this.game.getGameState() == GameState.FINISHING ||
+                    this.game.getGameState() == GameState.STARTING)) {
+                GamePlayer gamePlayer = this.game.getGameTeamHandler().getGamePlayer(player);
+                this.game.getGameTeamHandler().onPlayerLeaveInNonPlayingGameState(gamePlayer);
+                return;
+            }
+        }
+
+        if(!this.game.getSpectatorHandler().lobbyContainsBukkitSpectator(player)) {
+            return;
+        }
+
     }
 }
